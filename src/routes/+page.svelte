@@ -9,8 +9,9 @@
 	<img src="/favicon.png" alt="the logo for StockShare" style="width: min(9vw,5em)" />
 	<h1 id="nav-title"><a href="/" style="text-decoration: none">StockShare</a></h1>
 	<div>
-		<a href="/contact" style="padding-right: 0.5em"><button>Get Started</button></a>
-		<a href="/contact"><button>Log In</button></a>
+		<a href="/contact" style="padding-right: 0.5em"><button style="transform: none;
+            transition: none; box-shadow: none;">Get Started</button></a>
+		<a href="/contact"><button id="alternateButton">Log In</button></a>
 	</div>
 </header>
 <body>
@@ -37,4 +38,17 @@
 	header button {
 		padding: 0.75em 2em;
 	}
+    #alternateButton{
+        background-color: white;
+        color: var(--green);
+        border-width: 1.5px;
+        border-style: solid;
+        margin: -1px;
+    }
+    #alternateButton:hover{
+        background-color: var(--green);
+        color: white;
+        transform: none;
+        transition: none;
+    }
 </style>

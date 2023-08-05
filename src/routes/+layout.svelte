@@ -31,7 +31,6 @@
 			color: var(--green);
 			transform: translateY(-0.25em);
 			transition: transform 0.25s;
-			border: -2px solid var(--green);
 			border-width: 1px;
 			border-style: solid;
 			margin: -1px;
