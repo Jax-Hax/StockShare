@@ -8,9 +8,7 @@
 <header>
 	<img src="/favicon.png" alt="the logo for StockShare" style="width: min(9vw,5em)" />
 	<h1 id="nav-title"><a href="/" style="text-decoration: none">StockShare</a></h1>
-	<div>
-		<button id="signupButton">Dashboard</button>
-	</div>
+    <a href="/dashboard"><button id="signupButton">Dashboard</button></a>
 </header>
 <body>
     <section>
@@ -46,14 +44,6 @@
     #signupButton:hover{
         background-color: var(--dark-green);
         color: white;
-    }
-    dialog{
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        padding: 3em;
-        width: 80vw;
-        height: 70vh;
     }
     .bouncyButton {
         background-color: var(--green);

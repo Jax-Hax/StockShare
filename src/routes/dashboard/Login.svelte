@@ -2,14 +2,7 @@
     import { enhance } from '$app/forms';
 </script>
 <h1>Log In</h1>
-<form method="POST" use:enhance action="?/signup">
-    <label>
-        Username: 
-        <input
-            name="username"
-            required
-        />
-    </label>
+<form method="POST" use:enhance action="?/login">
     <label>
         Email Address:
         <input
@@ -26,15 +19,7 @@
             required
         />
     </label>
-    <label>
-        Password:
-        <input
-            name="confirmPassword"
-            type="password"
-            required
-        />
-    </label>
-    <button>Submit</button>
+    <button>Login</button>
 </form>
 <style>
     input:invalid {
