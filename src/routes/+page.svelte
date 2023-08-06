@@ -1,3 +1,7 @@
+<script>
+    let loginModal;
+    let signupModal;
+</script>
 <svelte:head>
 	<title>StockShare - Practice Trading Stocks with Friends</title>
 	<meta
@@ -9,12 +13,15 @@
 	<img src="/favicon.png" alt="the logo for StockShare" style="width: min(9vw,5em)" />
 	<h1 id="nav-title"><a href="/" style="text-decoration: none">StockShare</a></h1>
 	<div>
-		<a href="/contact" style="padding-right: 0.5em"><button style="transform: none;
-            transition: none; box-shadow: none;">Get Started</button></a>
-		<a href="/contact"><button id="alternateButton">Log In</button></a>
+		<button style="transform: none; transition: none; box-shadow: none; margin-right: 0.5em">Get Started</button>
+		<button id="alternateButton" on:click={loginModal.showModal()}>Log In</button>
 	</div>
 </header>
 <body>
+    <dialog bind:this={loginModal}>
+        <div>this is a model</div>
+        <button on:click={loginModal.close()}>Close</button>
+    </dialog>
     <section>
         
     </section>
@@ -50,5 +57,10 @@
         color: white;
         transform: none;
         transition: none;
+    }
+    dialog{
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 </style>
