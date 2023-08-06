@@ -1,4 +1,5 @@
 <script>
+    import { enhance } from '$app/forms';
     let loginModal;
     let signupModal;
 </script>
@@ -13,14 +14,48 @@
 	<img src="/favicon.png" alt="the logo for StockShare" style="width: min(9vw,5em)" />
 	<h1 id="nav-title"><a href="/" style="text-decoration: none">StockShare</a></h1>
 	<div>
-		<button style="transform: none; transition: none; box-shadow: none; margin-right: 0.5em">Get Started</button>
-		<button id="alternateButton" on:click={loginModal.showModal()}>Log In</button>
+		<button id="signupButton">Get Started</button>
+		<button id="loginButton" on:click={loginModal.showModal()}>Log In</button>
 	</div>
 </header>
 <body>
     <dialog bind:this={loginModal}>
-        <div>this is a model</div>
-        <button on:click={loginModal.close()}>Close</button>
+        <span class="material-symbols-outlined" id="backArrow" on:click={loginModal.close()}>arrow_back</span>
+        <h1>Log In</h1>
+        <form method="POST" use:enhance action="?/signup">
+            <label>
+                Username: 
+                <input
+                    name="username"
+                    required
+                />
+            </label>
+            <label>
+				Email Address:
+				<input
+					name="email"
+					type="email"
+					required
+				/>
+			</label>
+            <label>
+				Password:
+				<input
+					name="password"
+					type="password"
+					required
+				/>
+			</label>
+            <label>
+				Password:
+				<input
+					name="confirmPassword"
+					type="password"
+					required
+				/>
+			</label>
+            <button>Submit</button>
+        </form>
     </dialog>
     <section>
         
@@ -45,22 +80,78 @@
 	header button {
 		padding: 0.75em 2em;
 	}
-    #alternateButton{
+    #loginButton{
         background-color: white;
         color: var(--green);
-        border-width: 1.5px;
-        border-style: solid;
+        cursor: pointer;
         margin: -1px;
+        border: 1px solid var(--green);
     }
-    #alternateButton:hover{
-        background-color: var(--green);
+    #loginButton:hover{
+        background-color: #2bcf57;
         color: white;
         transform: none;
         transition: none;
+    }
+    #signupButton{
+        background-color: var(--green);
+        color: white;
+        cursor: pointer;
+        border: none;
+        margin-right: 0.51em;
+    }
+    #signupButton:hover{
+        background-color: var(--dark-green);
+        color: white;
     }
     dialog{
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+        padding: 3em;
+        width: 80vw;
+        height: 70vh;
+    }
+    .bouncyButton {
+        background-color: var(--green);
+        border: none;
+        color: white;
+        padding: 1em 2em;
+        border-radius: 19px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 1rem;
+    }
+    .bouncyButton:hover {
+        background-color: white;
+        box-shadow: 0 3px;
+        color: var(--green);
+        transform: translateY(-0.25em);
+        transition: transform 0.25s;
+        border-width: 1px;
+        border-style: solid;
+        margin: -1px;
+    }
+    #backArrow{
+        cursor: pointer;
+        padding: 0.25em;
+    }
+    input:invalid {
+		border: 1px solid red;
+	}
+    form {
+		position: relative;
+		display: flex;
+		padding: 2em;
+		flex-direction: column;
+		color: white;
+		background-color: #ffffff;
+		border-radius: 2em;
+	}
+    input{
+        width: 95%;
+        padding: 0.5em;
     }
 </style>

@@ -29,6 +29,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"appwrite": "^11.0.0"
+		"@supabase/supabase-js": "^2.31.0"
 	}
 }

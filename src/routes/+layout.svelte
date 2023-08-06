@@ -2,6 +2,7 @@
 	<style>
 		:root {
 			--green: #26b54c;
+            --dark-green: #219c41;
 		}
 		* {
 			margin: 0;
@@ -12,29 +13,7 @@
 		h1,
 		h2 {
 			font-family: 'Oswald', sans-serif;
-		}
-		button {
-			background-color: var(--green);
-			border: none;
-			color: white;
-			padding: 1em 2em;
-			border-radius: 19px;
-			text-align: center;
-			text-decoration: none;
-			cursor: pointer;
-			display: inline-block;
-			font-size: 1rem;
-		}
-		button:hover {
-			background-color: white;
-			box-shadow: 0 3px;
-			color: var(--green);
-			transform: translateY(-0.25em);
-			transition: transform 0.25s;
-			border-width: 1px;
-			border-style: solid;
-			margin: -1px;
-		}
+        }
 		h1 {
 			font-size: 3.5rem;
 			letter-spacing: -3px;
