@@ -1,26 +1,30 @@
 <script>
     import { enhance } from '$app/forms';
 </script>
-<h1>Log In</h1>
+
+<div id="background">
 <form method="POST" use:enhance action="?/login">
+    <h1 style="text-align: center; letter-spacing: 0.05em">Log In</h1>
     <label>
-        Email Address:
+        Email:
         <input
             name="email"
-            type="email"
-            required
+            type="email" class="material-symbols-outlined"
+            required placeholder="&#xe158;"
         />
     </label>
     <label>
         Password:
         <input
             name="password"
-            type="password"
-            required
+            type="password" class="material-symbols-outlined"
+            required placeholder="&#xe897;"
         />
     </label>
-    <button>Login</button>
+    <button class="bouncyButton">Log In</button>
+    <slot />
 </form>
+</div>
 <style>
     input:invalid {
 		border: 1px solid red;
@@ -29,13 +33,21 @@
 		position: relative;
 		display: flex;
 		padding: 2em;
+        max-width: 20em;
+        margin: auto;
 		flex-direction: column;
 		color: white;
+        height: 80vh;
 		background-color: #ffffff;
 		border-radius: 2em;
 	}
     input{
-        width: 95%;
+        width: 90%;
         padding: 0.5em;
+        margin-bottom: 0.5em;
+    }
+    #background{
+        background-color: var(--dark-green);
+        padding: 2em;
     }
 </style>

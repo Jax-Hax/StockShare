@@ -45,26 +45,4 @@
         background-color: var(--dark-green);
         color: white;
     }
-    .bouncyButton {
-        background-color: var(--green);
-        border: none;
-        color: white;
-        padding: 1em 2em;
-        border-radius: 19px;
-        text-align: center;
-        text-decoration: none;
-        cursor: pointer;
-        display: inline-block;
-        font-size: 1rem;
-    }
-    .bouncyButton:hover {
-        background-color: white;
-        box-shadow: 0 3px;
-        color: var(--green);
-        transform: translateY(-0.25em);
-        transition: transform 0.25s;
-        border-width: 1px;
-        border-style: solid;
-        margin: -1px;
-    }
 </style>

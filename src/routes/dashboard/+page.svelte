@@ -5,10 +5,20 @@
 </script>
 {#if login}
     <Login>
-        <button type="button" on:click={() => login = true}>Not a user? Sign up</button>
+        <p class="already" on:click={() => login = false}>Not a user? Sign up</p>
     </Login>
 {:else}
     <Signup>
-        <button type="button" on:click={() => login = true}>Already a user? Log in</button>
+        <p class="already" on:click={() => login = true}>Already a user? Log in</p>
     </Signup>
 {/if}
+<style>
+    .already{
+        cursor: pointer; 
+        text-align: center
+    }
+    .already:hover {
+		color: var(--green);
+		text-decoration: underline;
+	}
+</style>

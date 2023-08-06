@@ -4,38 +4,39 @@
 
 <div id="background">
 <form method="POST" use:enhance action="?/signup">
-    <h1 style="text-align: center">Sign up</h1>
-    <span class="material-symbols-outlined">
-        person
-    </span>
+    <h1 style="text-align: center; letter-spacing: 0.05em">Sign up</h1>
     <label>
+        Username:
         <input
-            name="username"
-            required placeholder="Username"
+            name="username"  class="material-symbols-outlined"
+            required placeholder="&#xe7fd;"
         />
     </label>
     <label>
+        Email:
         <input
             name="email"
-            type="email"
-            required placeholder="Email"
+            type="email" class="material-symbols-outlined"
+            required placeholder="&#xe158;"
         />
     </label>
     <label>
+        Password:
         <input
             name="password"
-            type="password"
-            required placeholder="Password"
+            type="password" class="material-symbols-outlined"
+            required placeholder="&#xe897;"
         />
     </label>
     <label>
+        Confirm Password:
         <input
             name="confirmPassword"
-            type="password"
-            required placeholder="Confirm Password"
+            type="password" class="material-symbols-outlined"
+            required placeholder="&#xe897;"
         />
     </label>
-    <button>Sign up</button>
+    <button class="bouncyButton">Sign up</button>
     <slot />
 </form>
 </div>
@@ -56,12 +57,12 @@
 		border-radius: 2em;
 	}
     input{
-        width: 95%;
+        width: 90%;
         padding: 0.5em;
-        margin: 1em 0;
+        margin-bottom: 0.5em;
     }
     #background{
-        background-color: var(--green);
+        background-color: var(--dark-green);
         padding: 2em;
     }
 </style>
