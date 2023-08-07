@@ -1,5 +1,6 @@
-import {supabase} from '$lib/database'
+import {supabase} from '$lib/database';
 import { fail } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 export const actions = {
 	signup: async ({ cookies, request }) => {
 		const formData = await request.formData();
@@ -22,8 +23,8 @@ export const actions = {
 				error: error.message
 			});
     }
-    console.log(data.user)
-    return {user: data.user};
+    cookies.set('user', data.user.id, { path: '/' });
+    throw redirect(302, '/dashboard')
 	},
   login: async ({ cookies, request }) => {
 		const formData = await request.formData();
@@ -41,7 +42,7 @@ export const actions = {
 				error: error.message
 			});
     }
-    console.log(data.user)
-    return {user: data.user};
+    cookies.set('user', data.user.id, { path: '/' });
+    throw redirect(302, '/dashboard')
 	}
 };

@@ -9,6 +9,9 @@
 	 */
     let signupModal;
 	export let form;
+	if (form?.user){
+		console.log("form submitted");
+	}
 </script>
 <svelte:head>
 	<title>StockShare - Practice Trading Stocks with Friends</title>
