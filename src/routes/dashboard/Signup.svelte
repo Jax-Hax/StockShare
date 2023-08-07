@@ -6,7 +6,7 @@
 <form method="POST" use:enhance action="?/signup">
     <h1 style="text-align: center; letter-spacing: 0.05em">Sign up</h1>
     <label>
-        Username: test
+        Username:
         <input
             name="username"  class="material-symbols-outlined"
             required placeholder="&#xe7fd;"
