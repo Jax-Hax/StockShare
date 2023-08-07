@@ -63,6 +63,8 @@
     }
     #background{
         background-color: var(--dark-green);
+        background-size: cover;
+        height: auto;
         padding: 2em;
     }
 </style>
