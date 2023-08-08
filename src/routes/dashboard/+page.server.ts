@@ -26,7 +26,7 @@ export async function load({ cookies }) {
 export const actions = {
 	newParty: async ({ cookies, request }) => {
 		const formData = await request.formData();
-
+		console.log(formData)
 		const { error } = await supabase
 			.from('parties')
 			.insert({
@@ -42,6 +42,7 @@ export const actions = {
 				drip_enabled: formData.get('drip_enabled'), 
 				leaderboard_enabled: formData.get('leaderboard_enabled'),
 			})
+			console.log(error)
 		if (error != null) {
 			return fail(422, {
 				error: error.message

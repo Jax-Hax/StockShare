@@ -55,28 +55,29 @@
 					<input name="max_sells" placeholder="The maximum number of times people can sell a stock (leave blank for unlimited)" />
 					Are index funds allowed:
 					<label class="switch">
-						<input name="index_funds_allowed" required type="checkbox">
+						<input name="index_funds_allowed" type="checkbox">
 						<span class="slider"></span>
 					</label>
 					<br>
 					Is buying just a part of a stock (partial) allowed:
 					<label class="switch">
-						<input name="partials_allowed" required type="checkbox">
+						<input name="partials_allowed" type="checkbox">
 						<span class="slider"></span>
 					</label>
 					<br>
 					Is the Leaderboard enabled:
 					<label class="switch">
-						<input name="leaderboard_enabled" required type="checkbox">
+						<input name="leaderboard_enabled" type="checkbox">
 						<span class="slider"></span>
 					</label>
 					<br>
 					Automatic Dividend Reinvesting (money will be deposited to account if not):
 					<label class="switch">
-						<input name="drip_enabled" required type="checkbox">
+						<input name="drip_enabled" type="checkbox">
 						<span class="slider"></span>
 					</label>
 				</div>
+				
 			</form>
 			<input id="submitPartyBtn" type="submit" form="partyMaker" value="Create New Competition" />
 		</div>
