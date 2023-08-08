@@ -11,11 +11,14 @@ export async function load({ cookies }) {
 		.select('party_id')
 	const partyIdsArray = data.map(item => item.party_id);
 	if (error != null) throw svelteError(420, "SQL Error: " + error.message + ", try refreshing the page");
-	//get party names
-	
-	console.log(partyIdsArray);
+	//get party data
+	const { data: parties, error: partyError } = await supabase
+		.from('parties')
+		.select()
+		.in('party_id', partyIdsArray);
 	
 	return {
-		userID
+		userID,
+		parties
 	};
 }
