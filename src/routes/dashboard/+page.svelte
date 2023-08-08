@@ -67,13 +67,13 @@
 					<br>
 					Is the Leaderboard enabled:
 					<label class="switch">
-						<input name="partials_allowed" required type="checkbox">
+						<input name="leaderboard_enabled" required type="checkbox">
 						<span class="slider"></span>
 					</label>
 					<br>
 					Automatic Dividend Reinvesting (money will be deposited to account if not):
 					<label class="switch">
-						<input name="partials_allowed" required type="checkbox">
+						<input name="drip_enabled" required type="checkbox">
 						<span class="slider"></span>
 					</label>
 				</div>
