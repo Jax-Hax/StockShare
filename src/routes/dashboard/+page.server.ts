@@ -31,6 +31,7 @@ export const actions = {
 			.from('parties')
 			.insert({
 				name: formData.get('name'),
+				owner_id: cookies.get('user'),
 				max_players: formData.get('max_players'),
 				starting_cash: formData.get('starting_cash'), 
 				max_stock_num: formData.get('max_stock_num'), 
