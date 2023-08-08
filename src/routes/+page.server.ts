@@ -23,6 +23,7 @@ export const actions = {
 				error: error.message
 			});
     }
+    //set user id cookie
     cookies.set('user', data.user.id, { path: '/' });
     throw redirect(302, '/dashboard')
 	},
