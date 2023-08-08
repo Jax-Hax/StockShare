@@ -1,5 +1,5 @@
 <script>
-    import { enhance } from '$app/forms';
+	import { enhance } from '$app/forms';
 	//user ID and parties
 	export let data;
 	let isLobby = true;
@@ -32,32 +32,27 @@
 			<h1 id="nav-title">My Competitions</h1>
 			<button class="loginButton">Log Out</button>
 		</header>
-        <div style="background-color: #1e1e1e;">
-            <h1 style="text-align: center; padding:0.3em">New Competition</h1>
-        <form method="POST" use:enhance action="?/newParty" id="partyMaker">
-            <div>
-                <input
-                name="username"
-                required placeholder="person"
-                />
-                <input
-                name="username"
-                required placeholder="person"
-                />
-            </div>
-            <div>
-                <input
-                name="username"
-                required placeholder="person"
-                />
-                <input
-                name="username"
-                required placeholder="person"
-                />
-            </div>
-        </form>
-        <input id="submitPartyBtn" type="submit" form="partyMaker" value="Create New Competition"/>
-        </div>
+		<div style="background-color: #1e1e1e;">
+			<h1 style="text-align: center; padding:0.3em">New Competition</h1>
+			<form method="POST" use:enhance action="?/newParty" id="partyMaker">
+				<div>
+					<input
+						name="max_players"
+						placeholder="Max number of players allowed (leave blank for unlimited)"
+					/>
+					<input
+						name="starting_cash"
+						required
+						placeholder="Amount of cash each player starts with"
+					/>
+				</div>
+				<div>
+					<input name="name" style="font-size: 25px" required placeholder="Competition Name" />
+					<input name="username" required placeholder="person" />
+				</div>
+			</form>
+			<input id="submitPartyBtn" type="submit" form="partyMaker" value="Create New Competition" />
+		</div>
 		{#each data.parties as party}
 			<h1>{party.name}</h1>
 			<p>{party.users}</p>
@@ -107,7 +102,7 @@
 		transition: none;
 	}
 	body {
-		background-color: #182c25;
+		background-color: #232323;
 	}
 	body h1,
 	body p,
@@ -115,39 +110,42 @@
 	body h3 {
 		color: white;
 	}
-    #partyMaker{
-        display: grid;
-        gap: 1rem;
-        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-        padding: 1em
-    }
-    #partyMaker div{
-        background-color: #272727;
-        padding: 2em;
-        color: white;
-        border-radius: 16px;
-        font-size: 1.25em;
-        border-radius: 16px;
-        text-align: center;
-    }
-    #partyMaker input{
-        padding: 1em;
-        margin-bottom: 1em;
-        width: 95%;
-        border: 0.1em solid #46c759;
-        border-radius: 16px;
-        background-color: #121212;
-        color: white;
-    }
-    #submitPartyBtn{
-        padding: 1em 5em;
-        border-radius: 16px;
-        display: block; margin:0 auto;
-        font-size: 1em;
-        background-color: var(--green);
-        border: none;
-    }
-    #submitPartyBtn:hover{
-        cursor: pointer;
-    }
+	#partyMaker {
+		display: grid;
+		gap: 1rem;
+		grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+		align-items: center;
+		padding: 1em;
+	}
+	#partyMaker div {
+		background-color: #272727;
+		padding: 2em;
+		color: white;
+		border-radius: 16px;
+		font-size: 1.25em;
+		border-radius: 16px;
+		text-align: center;
+	}
+	#partyMaker input {
+		padding: 0.75em;
+		margin-bottom: 1em;
+		width: 95%;
+		border: 0.1em solid #46c759;
+		border-radius: 16px;
+		background-color: #121212;
+		color: white;
+		font-size: 18px;
+	}
+	#submitPartyBtn {
+		padding: 1em 5em;
+		border-radius: 16px;
+		display: block;
+		margin: 0 auto;
+		font-size: 1em;
+		background-color: var(--green);
+		border: none;
+	}
+	#submitPartyBtn:hover {
+		cursor: pointer;
+	}
 </style>
