@@ -1,32 +1,25 @@
 <script>
-    import Login from './Login.svelte'
-    import Signup from './Signup.svelte'
-    let login = false;
-    export let form;
-    if(form){
-        console.log(form.user);
+    //user ID and parties
+    export let data;
+    let isLobby = true;
+    let party;
+    async function join(partyID, party){
+        party = party;
+        const response = await fetch('/api', {
+				method: 'POST',
+				body: JSON.stringify({ partyID, data.userID }),
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			});
     }
 </script>
-{#if login}
-    <Login>
-        <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-        <p class="already" on:click={() => login = false}>Not a user? Sign up</p>
-    </Login>
+{#if isLobby}
+{#each data.parties as party}
+    <h1>{party.name}</h1>
+    <p>{party.users}</p>
+    <button on:click={() => join(party.party_id,party)}>Click</button>
+{/each}
 {:else}
-    <Signup>
-        <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-        <p class="already" on:click={() => login = true}>Already a user? Log in</p>
-    </Signup>
+
 {/if}
-<style>
-    .already{
-        cursor: pointer; 
-        text-align: center
-    }
-    .already:hover {
-		color: var(--green);
-		text-decoration: underline;
-	}
-</style>
