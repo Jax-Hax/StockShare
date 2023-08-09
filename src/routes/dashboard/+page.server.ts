@@ -27,38 +27,36 @@ export const actions = {
 	newParty: async ({ cookies, request }) => {
 		const formData = await request.formData();
 		const userID = cookies.get('user');
+
+		const getValue = (field: string) => {
+			const value = formData.get(field);
+			return value !== '' ? value : null;
+		};
+
 		const data = {
-			name: formData.get('name'),
-			max_players: formData.get('max_players'),
-			starting_cash: formData.get('starting_cash'), 
-			max_stock_num: formData.get('max_stock_num'), 
-			index_funds_allowed: formData.get('index_funds_allowed'), 
-			max_sells: formData.get('max_sells'), 
-			partials_allowed: formData.get('partials_allowed'), 
-			min_stock_price: formData.get('min_stock_price'), 
-			drip_enabled: formData.get('drip_enabled'), 
-			leaderboard_enabled: formData.get('leaderboard_enabled'),
-		}
-		console.log(data.index_funds_allowed)
+			name: getValue('name') || 'Untitled',
+			max_players: getValue('max_players'),
+			starting_cash: getValue('starting_cash') || '10000',
+			max_stock_num: getValue('max_stock_num'),
+			index_funds_allowed: formData.get('index_funds_allowed') !== null,
+			max_sells: getValue('max_sells'),
+			partials_allowed: formData.get('partials_allowed') !== null,
+			min_stock_price: getValue('min_stock_price') || '0',
+			drip_enabled: formData.get('drip_enabled') !== null,
+			leaderboard_enabled: formData.get('leaderboard_enabled') !== null,
+		};
+
 		const { error } = await supabase
 			.from('parties')
 			.insert({
-				name: data.name != '' ? data.name : 'Untitled',
+				...data,
 				owner_id: userID,
-				max_players: data.max_players != '' ? data.max_players : null,
-				starting_cash: data.starting_cash != '' ? data.starting_cash : '10000',
-				max_stock_num: data.max_stock_num != '' ? data.max_stock_num : null,
-				index_funds_allowed: data.index_funds_allowed != null ? data.index_funds_allowed : false,
-				max_sells: data.max_sells != '' ? data.max_sells : null,
-				partials_allowed: data.partials_allowed != null ? data.partials_allowed : false,
-				min_stock_price: data.min_stock_price != '' ? data.min_stock_price : '0',
-				drip_enabled: data.drip_enabled != null ? data.drip_enabled : false,
-				leaderboard_enabled: data.leaderboard_enabled != null ? data.leaderboard_enabled : false
-			})
-		if (error != null) {
-			console.log(error)
+			});
+
+		if (error) {
+			console.log(error);
 			return fail(422, {
-				error: error.message
+				error: error.message,
 			});
 		}
 	}
