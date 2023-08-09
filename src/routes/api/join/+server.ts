@@ -8,5 +8,8 @@ export async function POST({ request, cookies }) {
 		.select()
 		.eq('party_id', partyID)
         .eq('user_id', userID);
+	if(error != null){
+		console.log(error)
+	}
 	return json({ data }, { status: 201 });
 }

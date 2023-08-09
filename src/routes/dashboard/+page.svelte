@@ -8,7 +8,7 @@
 	let user_id;
 	let stocks;
 	async function join(partyID, party, userID) {
-		const response = await fetch('/api', {
+		const response = await fetch('/api/join', {
 			method: 'POST',
 			body: JSON.stringify({ partyID, userID }),
 			headers: {
@@ -18,6 +18,16 @@
 		currentParty = party;
 		stocks = await response.json();
 		isLobby = false;
+	}
+	async function deleteParty(partyID, userID) {
+		await fetch('/api/delete', {
+			method: 'POST',
+			body: JSON.stringify({ partyID, userID }),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+		isLobby = true;
 	}
 	$: if (form?.party && isLobby) {
 		user_id = data.userID;
@@ -114,7 +124,7 @@
 					<p>There are {party.num_users} people in this party (including you)</p>
 					{/if}
 					{#if data.userID == party.owner_id}
-					<button on:click={() => join(party.party_id, party, data.userID)}>Delete competition</button>
+					<button on:click={() => deleteParty(party.party_id, data.userID)}>Delete competition</button>
 					{/if}
 					<button on:click={() => join(party.party_id, party, data.userID)}>Stock Dashboard</button>
 				</div>
