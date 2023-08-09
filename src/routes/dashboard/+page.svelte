@@ -7,6 +7,11 @@
 	let currentParty;
 	let user_id;
 	let stocks;
+
+	//variables for the delete competition popup
+	let user_id_delete, party_id_delete;
+	let deleteModal;
+
 	async function join(partyID, party, userID) {
 		const response = await fetch('/api/join', {
 			method: 'POST',
@@ -28,6 +33,7 @@
 			}
 		});
 		isLobby = true;
+		deleteModal.close()
 	}
 	$: if (form?.party && isLobby) {
 		user_id = data.userID;
@@ -78,7 +84,7 @@
 					/>
 					<input
 						name="min_stock_price"
-						type="number"
+						type="number" step="0.01"
 						placeholder="Minimum price of a stock, to prevent penny stocks (leave blank for 0)"
 					/>
 					<input
@@ -114,6 +120,9 @@
 			<input id="submitPartyBtn" type="submit" form="partyMaker" value="Create New Competition" />
 		</div>
 		<h1 style="text-align: center; padding: 0.5em">Your Competitions</h1>
+		<dialog bind:this={deleteModal}>
+			<button class="redButton" style="margin: 1em;" on:click={() => {deleteParty(party_id_delete,user_id_delete)}}>Delete competition</button>
+		</dialog>
 		<div id="competitionGrid">
 			{#each data.parties as party}
 				<div>
@@ -123,10 +132,11 @@
 					{:else}
 					<p>There are {party.num_users} people in this party (including you)</p>
 					{/if}
+					<button class="bouncyButton" style="margin: 1em" on:click={() => join(party.party_id, party, data.userID)}>Stock Dashboard</button>
 					{#if data.userID == party.owner_id}
-					<button on:click={() => deleteParty(party.party_id, data.userID)}>Delete competition</button>
+					<button class="redButton" style="margin: 1em;" on:click={() => {user_id_delete = data.userID; party_id_delete = party.party_id; deleteModal.showModal()}}>Delete competition</button>
 					{/if}
-					<button on:click={() => join(party.party_id, party, data.userID)}>Stock Dashboard</button>
+					
 				</div>
 			{/each}
 		</div>
@@ -238,6 +248,27 @@
 		background-color: var(--green);
 		border: none;
 	}
+	.redButton {
+        background-color:#ea5252;
+        border: none;
+        color: white;
+        padding: 0.5em 1em;
+        border-radius: 19px;
+        text-decoration: none;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 1rem;
+    }
+    .redButton:hover {
+        background-color: white;
+        box-shadow: 0 3px;
+        color: #ea5252;
+        transform: translateY(-0.25em);
+        transition: transform 0.25s;
+        border-width: 1px;
+        border-style: solid;
+        margin: -1px;
+    }
 	#submitPartyBtn:hover {
 		cursor: pointer;
 	}
