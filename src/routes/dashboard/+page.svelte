@@ -1,5 +1,6 @@
 <script>
 	import { enhance } from '$app/forms';
+	import { invalidate } from '$app/navigation';
 	//user ID and parties
 	export let data;
 	export let form;
@@ -34,6 +35,7 @@
 		});
 		isLobby = true;
 		deleteModal.close()
+		invalidate((url) => url.pathname === '/path');
 	}
 	$: if (form?.party && isLobby) {
 		user_id = data.userID;
