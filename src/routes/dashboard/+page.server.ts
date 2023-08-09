@@ -44,6 +44,7 @@ export const actions = {
 			min_stock_price: getValue('min_stock_price') || '0',
 			drip_enabled: formData.get('drip_enabled') !== null,
 			leaderboard_enabled: formData.get('leaderboard_enabled') !== null,
+			num_users: 1,
 		};
 
 		const { data, error: insertError } = await supabase

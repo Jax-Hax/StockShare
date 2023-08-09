@@ -5,6 +5,7 @@
 	export let form;
 	let isLobby = true;
 	let currentParty;
+	let user_id;
 	let stocks;
 	async function join(partyID, party, userID) {
 		const response = await fetch('/api', {
@@ -19,6 +20,7 @@
 		isLobby = false;
 	}
 	$: if (form?.party && isLobby) {
+		user_id = form.user_id;
 		join(form.party.party_id, form.party, form.user_id);
 	}
 </script>
@@ -33,7 +35,7 @@
 <body>
 	{#if isLobby}
 		<header>
-			<h1 id="nav-title">My Competitions</h1>
+			<h1 id="nav-title">StockShare</h1>
 			<button class="loginButton">Log Out</button>
 		</header>
 		<div style="background-color: #1e1e1e; padding-bottom: 1em">
@@ -106,8 +108,15 @@
 			{#each data.parties as party}
 				<div>
 					<h1>{party.name}</h1>
-					<p>{party.users}</p>
-					<button on:click={() => join(party.party_id, party, data.userID)}>Click</button>
+					{#if party.num_users == 1}
+					<p>It's just you in this competition!</p>
+					{:else}
+					<p>There are {party.num_users} people in this party (including you)</p>
+					{/if}
+					{#if user_id == party.owner_id}
+					<button on:click={() => join(party.party_id, party, data.userID)}>Delete competition</button>
+					{/if}
+					<button on:click={() => join(party.party_id, party, data.userID)}>Stock Dashboard</button>
 				</div>
 			{/each}
 		</div>
