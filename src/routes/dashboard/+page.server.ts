@@ -75,8 +75,7 @@ export const actions = {
 			});
 		}
 		return {
-			party: data[0],
-			user_id: userID
+			party: data[0]
 		}
 	}
 }

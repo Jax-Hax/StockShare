@@ -20,8 +20,8 @@
 		isLobby = false;
 	}
 	$: if (form?.party && isLobby) {
-		user_id = form.user_id;
-		join(form.party.party_id, form.party, form.user_id);
+		user_id = data.userID;
+		join(form.party.party_id, form.party, data.userID);
 	}
 </script>
 
@@ -113,7 +113,7 @@
 					{:else}
 					<p>There are {party.num_users} people in this party (including you)</p>
 					{/if}
-					{#if user_id == party.owner_id}
+					{#if data.userID == party.owner_id}
 					<button on:click={() => join(party.party_id, party, data.userID)}>Delete competition</button>
 					{/if}
 					<button on:click={() => join(party.party_id, party, data.userID)}>Stock Dashboard</button>
