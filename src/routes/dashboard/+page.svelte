@@ -18,6 +18,9 @@
 		stocks = await response.json();
 		isLobby = false;
 	}
+	if (form?.party && isLobby){
+		join(form.party.party_id, form.party, form.user_id);
+	}
 </script>
 
 <svelte:head>

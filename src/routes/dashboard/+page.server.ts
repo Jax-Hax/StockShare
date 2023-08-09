@@ -33,7 +33,7 @@ export const actions = {
 			return value !== '' ? value : null;
 		};
 
-		const data = {
+		const insertData = {
 			name: getValue('name') || 'Untitled',
 			max_players: getValue('max_players'),
 			starting_cash: getValue('starting_cash') || '10000',
@@ -46,11 +46,25 @@ export const actions = {
 			leaderboard_enabled: formData.get('leaderboard_enabled') !== null,
 		};
 
-		const { error } = await supabase
+		const { data, error: insertError } = await supabase
 			.from('parties')
 			.insert({
-				...data,
+				...insertData,
 				owner_id: userID,
+			})
+			.select();
+		if (insertError) {
+			console.log(insertError);
+			return fail(422, {
+				error: insertError.message,
+			});
+		}
+		//add user to party
+		const { error } = await supabase
+			.from('usersInParty')
+			.insert({
+				party_id: data[0].party_id,
+				user_id: userID
 			});
 
 		if (error) {
@@ -58,6 +72,10 @@ export const actions = {
 			return fail(422, {
 				error: error.message,
 			});
+		}
+		return {
+			party: data[0],
+			user_id: userID
 		}
 	}
 }
