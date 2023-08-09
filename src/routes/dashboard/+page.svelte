@@ -123,7 +123,10 @@
 		</div>
 		<h1 style="text-align: center; padding: 0.5em">Your Competitions</h1>
 		<dialog bind:this={deleteModal}>
-			<button class="redButton" style="margin: 1em;" on:click={() => {deleteParty(party_id_delete,user_id_delete)}}>Delete competition</button>
+			<span class="material-symbols-outlined" style="cursor: pointer; padding:0.25em; color: white; font-size: 40px" on:click={deleteModal.close()}>arrow_back</span>
+			<h1>Are you sure you want to do this? It is permanent and will delete the competition for all users involved.</h1>
+			<button class="bouncyButton" style="margin: 1em; padding: 0.5em 1em" on:click={() => deleteModal.close()}>Back</button>
+			<button class="redButton" style="margin: 1em;" on:click={() => {deleteParty(party_id_delete,user_id_delete)}}>Delete FOREVER</button>
 		</dialog>
 		<div id="competitionGrid">
 			{#each data.parties as party}
@@ -333,4 +336,14 @@
 		color: red;
 		font-size: 28px;
 	}
+	dialog{
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 3em;
+		border: none;
+		border-radius: 1em;
+		text-align: center;
+		background-color: #2e2e2e;
+    }
 </style>
