@@ -2,6 +2,7 @@
 	import { enhance } from '$app/forms';
 	//user ID and parties
 	export let data;
+	export let form;
 	let isLobby = true;
 	let currentParty;
 	let stocks;
@@ -37,9 +38,12 @@
 			<form method="POST" use:enhance action="?/newParty" id="partyMaker">
 				<div>
 					<h1>Main</h1>
+					{#if form?.error}
+					<p class="error">{form.error}</p>
+					{/if}
 					<input name="name" style="font-size: 25px" required placeholder="Competition Name" />
 					<input
-						name="starting_cash"
+						name="starting_cash" type="number"
 						required
 						placeholder="Amount of cash each player starts with"
 					/>
@@ -47,12 +51,12 @@
 				<div>
 					<h1>Extra</h1>
 					<input
-						name="max_players"
+						name="max_players" type="number"
 						placeholder="Max number of players allowed (leave blank for unlimited)"
 					/>
-					<input name="max_stock_num" placeholder="Maximum number of unique stocks any player can have at once (leave blank for unlimited)" />
-					<input name="min_stock_price" placeholder="Minimum price of a stock, to prevent penny stocks (leave blank for 0)" />
-					<input name="max_sells" placeholder="The maximum number of times people can sell a stock (leave blank for unlimited)" />
+					<input name="max_stock_num" type="number" placeholder="Maximum number of unique stocks any player can have at once (leave blank for unlimited)" />
+					<input name="min_stock_price" type="number" placeholder="Minimum price of a stock, to prevent penny stocks (leave blank for 0)" />
+					<input name="max_sells" type="number" placeholder="The maximum number of times people can sell a stock (leave blank for unlimited)" />
 					Are index funds allowed:
 					<label class="switch">
 						<input name="index_funds_allowed" type="checkbox">
@@ -231,4 +235,9 @@ input:checked + .slider:before {
   -ms-transform: translateX(26px);
   transform: translateX(26px);
 }
+.error{
+		text-align: center;
+		color: red;
+		font-size: 28px;
+	}
 </style>

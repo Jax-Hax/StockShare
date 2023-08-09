@@ -19,6 +19,7 @@ export const actions = {
       password: formData.get('password'),
     })
     if (error != null){
+      console.log(error)
       return fail(422, {
 				error: error.message
 			});
@@ -39,6 +40,7 @@ export const actions = {
       password: formData.get('password'),
     })
     if (error != null){
+      console.log(error)
       return fail(422, {
 				error: error.message
 			});
