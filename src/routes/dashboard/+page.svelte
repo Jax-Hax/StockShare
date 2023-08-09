@@ -18,7 +18,7 @@
 		stocks = await response.json();
 		isLobby = false;
 	}
-	if (form?.party && isLobby){
+	$: if (form?.party && isLobby){
 		join(form.party.party_id, form.party, form.user_id);
 	}
 </script>
@@ -97,7 +97,7 @@
 		<header>
 			<img src="/favicon.png" alt="the logo for StockShare" style="width: min(9vw,5em)" />
 			<h1 id="nav-title">{currentParty.name}</h1>
-			<button class="loginButton" on:click={() => (isLobby = true)}>Back</button>
+			<button class="loginButton" on:click={() => {isLobby = true; form = null}}>Back</button>
 		</header>
 		{#each stocks.data as stock}
 			<div>

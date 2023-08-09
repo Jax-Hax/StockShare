@@ -3,7 +3,6 @@ import { json } from '@sveltejs/kit';
 
 export async function POST({ request, cookies }) {
 	const { partyID, userID } = await request.json();
-    console.log("here")
     const { data, error } = await supabase
 		.from('stocks')
 		.select()
