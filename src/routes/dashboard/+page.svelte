@@ -196,16 +196,42 @@
 					<p>Total Gain %</p>
 					<p>Total Gain $</p>
 					<p>Qty</p>
+					<p>Price at Investment Date</p>
 					{#each stocks.stockData as stock}
 						<p>{stock.symbol}</p>
-						<p>{stock.total}</p>
-						<p>{stock.am_invested}</p>
-						<p>{stock.price}</p>
-						<p>{stock.day_gain_percent}</p>
-						<p>{stock.day_gain_dollar}</p>
-						<p>{stock.total_gain_percent}</p>
-						<p>{stock.total_gain_dollar}</p>
+						{#if stock.total < 0}
+							<p style="color: red">-${stock.total * -1}</p>
+						{:else}
+							<p style="color: var(--green)">${stock.total}</p>
+						{/if}
+						<p style="color: var(--green)">${stock.am_invested}</p>
+						{#if stock.price < 0}
+							<p style="color: red">-${stock.price * -1}</p>
+						{:else}
+							<p style="color: var(--green)">${stock.price}</p>
+						{/if}
+						{#if stock.day_gain_percent < 0}
+							<p style="color: red">${stock.day_gain_percent}%</p>
+						{:else}
+							<p style="color: var(--green)">{stock.day_gain_percent}%</p>
+						{/if}
+						{#if stock.day_gain_dollar < 0}
+							<p style="color: red">-${stock.day_gain_dollar * -1}</p>
+						{:else}
+							<p style="color: var(--green)">${stock.day_gain_dollar}</p>
+						{/if}
+						{#if stock.total_gain_percent < 0}
+							<p style="color: red">${stock.total_gain_percent}%</p>
+						{:else}
+							<p style="color: var(--green)">{stock.total_gain_percent}%</p>
+						{/if}
+						{#if stock.total_gain_dollar < 0}
+							<p style="color: red">-${stock.total_gain_dollar * -1}</p>
+						{:else}
+							<p style="color: var(--green)">${stock.total_gain_dollar}</p>
+						{/if}
 						<p>{stock.quantity}</p>
+						<p style="color: var(--green)">${stock.price_when_invested}</p>
 					{/each}
 				</div>
 			</div>
@@ -326,13 +352,13 @@
 	}
 	#stockTable {
 		display: grid;
-		grid-template-columns: repeat(9, 1fr);
-		background-color: black; 
+		grid-template-columns: repeat(10, 1fr);
+		background-color: black;
 		gap: 1px;
 		overflow: scroll;
-		border-radius: 10px
+		border-radius: 10px;
 	}
-	#stockTable > p{
+	#stockTable > p {
 		padding: 1em;
 		background-color: #363636;
 	}
