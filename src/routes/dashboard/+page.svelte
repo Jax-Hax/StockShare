@@ -196,22 +196,18 @@
 					<p>Total Gain %</p>
 					<p>Total Gain $</p>
 					<p>Qty</p>
-					<p>Price at Investment Date</p>
+					<p>Price Paid</p>
 					{#each stocks.stockData as stock}
-						<p>{stock.symbol}</p>
+						<p style="color: #266bff">{stock.symbol}</p>
 						{#if stock.total < 0}
-							<p style="color: red">-${stock.total * -1}</p>
+							<p>-${stock.total * -1}</p>
 						{:else}
-							<p style="color: var(--green)">${stock.total}</p>
+							<p>${stock.total}</p>
 						{/if}
-						<p style="color: var(--green)">${stock.am_invested}</p>
-						{#if stock.price < 0}
-							<p style="color: red">-${stock.price * -1}</p>
-						{:else}
-							<p style="color: var(--green)">${stock.price}</p>
-						{/if}
+						<p>${stock.am_invested}</p>
+						<p>${stock.price}</p>
 						{#if stock.day_gain_percent < 0}
-							<p style="color: red">${stock.day_gain_percent}%</p>
+							<p style="color: red">{stock.day_gain_percent}%</p>
 						{:else}
 							<p style="color: var(--green)">{stock.day_gain_percent}%</p>
 						{/if}
@@ -221,7 +217,7 @@
 							<p style="color: var(--green)">${stock.day_gain_dollar}</p>
 						{/if}
 						{#if stock.total_gain_percent < 0}
-							<p style="color: red">${stock.total_gain_percent}%</p>
+							<p style="color: red">{stock.total_gain_percent}%</p>
 						{:else}
 							<p style="color: var(--green)">{stock.total_gain_percent}%</p>
 						{/if}
@@ -231,7 +227,7 @@
 							<p style="color: var(--green)">${stock.total_gain_dollar}</p>
 						{/if}
 						<p>{stock.quantity}</p>
-						<p style="color: var(--green)">${stock.price_when_invested}</p>
+						<p>${stock.price_when_invested}</p>
 					{/each}
 				</div>
 			</div>
