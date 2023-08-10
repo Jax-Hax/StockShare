@@ -22,11 +22,7 @@
 		});
 		currentParty = party;
 		stocks = await response.json();
-		getStockData(stocks);
 		isLobby = false;
-	}
-	function getStockData(stocks) {
-		//console.log(stocks);
 	}
 	async function deleteParty(partyID) {
 		await fetch('/api/delete', {
@@ -192,16 +188,24 @@
 				<h1>Your Stocks</h1>
 				<div id="stockTable">
 					<p>Symbol</p>
-					<p>Money</p>
+					<p>Total</p>
+					<p>Am. Invested</p>
 					<p>Price</p>
 					<p>Day's Gain %</p>
 					<p>Day's Gain $</p>
 					<p>Total Gain %</p>
 					<p>Total Gain $</p>
 					<p>Qty</p>
-					{#each stocks.data as stock}
-						<p class="ticker">{stock.ticker}</p>
-						<p class="amount">{stock.amount_invested}</p>
+					{#each stocks.stockData as stock}
+						<p>{stock.symbol}</p>
+						<p>{stock.total}</p>
+						<p>{stock.am_invested}</p>
+						<p>{stock.price}</p>
+						<p>{stock.day_gain_percent}</p>
+						<p>{stock.day_gain_dollar}</p>
+						<p>{stock.total_gain_percent}</p>
+						<p>{stock.total_gain_dollar}</p>
+						<p>{stock.quantity}</p>
 					{/each}
 				</div>
 			</div>
@@ -322,7 +326,7 @@
 	}
 	#stockTable {
 		display: grid;
-		grid-template-columns: repeat(8, 1fr);
+		grid-template-columns: repeat(9, 1fr);
 		background-color: black; 
 		gap: 3px;
 		overflow: scroll;
