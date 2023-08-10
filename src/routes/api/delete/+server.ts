@@ -2,7 +2,7 @@ import {supabase} from '$lib/database';
 import { json } from '@sveltejs/kit';
 
 export async function POST({ request, cookies }) {
-	const { partyID, user_id } = await request.json();
+	const { partyID } = await request.json();
     const userID = cookies.get('user');
     //delete usersInParty
     const { error } = await supabase

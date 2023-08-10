@@ -3,7 +3,7 @@ import { json } from '@sveltejs/kit';
 import yahoofinance from 'yahoo-finance2';
 
 export async function POST({ request, cookies }) {
-	const { partyID, user_id } = await request.json();
+	const { partyID } = await request.json();
 	const userID = cookies.get('user');
 	//leaderboard
 	const { data: leaderboard, error: usersInPartyError } = await supabase

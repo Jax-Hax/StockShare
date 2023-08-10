@@ -6,17 +6,16 @@
 	export let form;
 	let isLobby = true;
 	let currentParty;
-	let user_id;
 	let stocks;
 
 	//variables for the delete competition popup
-	let user_id_delete, party_id_delete;
+	let party_id_delete;
 	let deleteModal;
 
-	async function join(partyID, party, userID) {
+	async function join(partyID, party) {
 		const response = await fetch('/api/join', {
 			method: 'POST',
-			body: JSON.stringify({ partyID, userID }),
+			body: JSON.stringify({ partyID }),
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -29,10 +28,10 @@
 	function getStockData(stocks) {
 		//console.log(stocks);
 	}
-	async function deleteParty(partyID, userID) {
+	async function deleteParty(partyID) {
 		await fetch('/api/delete', {
 			method: 'POST',
-			body: JSON.stringify({ partyID, userID }),
+			body: JSON.stringify({ partyID }),
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -42,8 +41,7 @@
 		invalidate((url) => url.pathname === '/path');
 	}
 	$: if (form?.party && isLobby) {
-		user_id = data.userID;
-		join(form.party.party_id, form.party, data.userID);
+		join(form.party.party_id, form.party);
 	}
 </script>
 
@@ -146,7 +144,7 @@
 				class="redButton"
 				style="margin: 1em;"
 				on:click={() => {
-					deleteParty(party_id_delete, user_id_delete);
+					deleteParty(party_id_delete);
 				}}>Delete FOREVER</button
 			>
 		</dialog>
@@ -162,14 +160,13 @@
 					<button
 						class="bouncyButton"
 						style="margin: 1em"
-						on:click={() => join(party.party_id, party, data.userID)}>Stock Dashboard</button
+						on:click={() => join(party.party_id, party)}>Stock Dashboard</button
 					>
 					{#if data.userID == party.owner_id}
 						<button
 							class="redButton"
 							style="margin: 1em;"
 							on:click={() => {
-								user_id_delete = data.userID;
 								party_id_delete = party.party_id;
 								deleteModal.showModal();
 							}}>Delete competition</button
