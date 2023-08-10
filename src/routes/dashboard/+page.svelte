@@ -328,12 +328,13 @@
 		display: grid;
 		grid-template-columns: repeat(9, 1fr);
 		background-color: black; 
-		gap: 3px;
+		gap: 1px;
 		overflow: scroll;
+		border-radius: 10px
 	}
 	#stockTable > p{
 		padding: 1em;
-		background-color: green;
+		background-color: #363636;
 	}
 	.redButton {
 		background-color: #ea5252;

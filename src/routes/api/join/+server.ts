@@ -42,7 +42,7 @@ export async function POST({ request, cookies }) {
         stockData.push({
             symbol: stock.ticker,
             am_invested: stock.amount_invested,
-            total: price,
+            total: total,
             price: price,
             price_when_invested: stock.price_when_invested,
             day_gain_percent: (price - result.summaryDetail?.open) / result.summaryDetail?.open * 100,
