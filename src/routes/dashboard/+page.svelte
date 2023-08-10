@@ -233,10 +233,14 @@
 			</div>
 			<div id="leaderboard">
 				<h1>Leaderboard</h1>
-				{#each stocks.leaderboard as player}
-					<div>
-						<p>{player.name}</p>
-						<p>{player.money}</p>
+				{#each stocks.leaderboard as player, i}
+					<div class="leaderboardChild">
+						<p>{i + 1}. {player.name}</p>
+						{#if player.money - currentParty.starting_cash < 0}
+							<p style="color: red">-${(player.money - currentParty.starting_cash) * -1}</p>
+						{:else}
+							<p style="color: var(--green)">${player.money - currentParty.starting_cash}</p>
+						{/if}
 					</div>
 				{/each}
 			</div>
@@ -326,6 +330,16 @@
 		gap: 1rem;
 		grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
 		padding: 1em;
+	}
+	.leaderboardChild {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		padding: 1em;
+		background-color: #363636;
+		border-radius: 16px;
+		margin: 0.5em;
+		max-width: 740px;
 	}
 	#yourStocks,
 	#leaderboard {
