@@ -1,7 +1,6 @@
 <script>
 	import { enhance } from '$app/forms';
 	import { invalidate } from '$app/navigation';
-	import yahooFinance from 'yahoo-finance2';
 	//user ID and parties
 	export let data;
 	export let form;

@@ -8,8 +8,12 @@ export async function POST({ request, cookies }) {
 		.select()
 		.eq('party_id', partyID)
         .eq('user_id', userID);
-	if(error != null){
-		console.log(error)
+	const { data: leaderboard, error: usersInPartyError } = await supabase
+		.from('usersInParty')
+		.select('name, money')
+		.eq('party_id', partyID)
+	if(usersInPartyError != null){
+		console.log(usersInPartyError)
 	}
-	return json({ data }, { status: 201 });
+	return json({ data, leaderboard }, { status: 201 });
 }
