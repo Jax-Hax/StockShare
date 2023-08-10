@@ -12,6 +12,7 @@ export async function POST({ request, cookies }) {
 		.from('usersInParty')
 		.select('name, money')
 		.eq('party_id', partyID)
+		.order('money', { ascending: false })
 	if(usersInPartyError != null){
 		console.log(usersInPartyError)
 	}
