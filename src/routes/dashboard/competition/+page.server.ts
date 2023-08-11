@@ -1,9 +1,14 @@
-import { supabase } from '$lib/database';
+import { redirect } from '@sveltejs/kit';
 import yahooFinance from 'yahoo-finance2';
 
-export async function load({ cookies }) {
+export async function load({ cookies ,locals: { supabase, getSession }}) {
 	const partyID = cookies.get('party_id');
-	const userID = cookies.get('user');
+	const session = await getSession()
+
+	if (!session) {
+	  throw redirect(303, '/')
+	}
+    const userID = session.user.id
 	//leaderboard
 	const { data: leaderboard, error: usersInPartyError } = await supabase
 		.from('usersInParty')
@@ -29,10 +34,9 @@ export async function load({ cookies }) {
 	//multiply quantity by current price to get total, subtract total from am_invested to get total_gain, 
 	//use quoteSummary to get the open or previousClose for the price that morning, and use curPrice and that for the daily change
 	let stockData: any = [];
-    const queryOptions = { modules: ['price', 'summaryDetail'] };
 
     for (const stock of data || []) {
-        const result = await yahooFinance.quoteSummary(stock.ticker, queryOptions);
+        const result = await yahooFinance.quoteSummary(stock.ticker);
         const price = result.price?.regularMarketPrice;
         const total = stock.quantity * price;
         const totalGain = total - stock.amount_invested;

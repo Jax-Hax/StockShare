@@ -7,6 +7,14 @@
 	const currentParty = data.currentParty[0];
 </script>
 
+<svelte:head>
+	<title>{currentParty.name}</title>
+	<meta
+		name="description"
+		content="Learn about the stock market without risk. Invite your friends to a competition for free!"
+	/>
+</svelte:head>
+
 <header>
 	<img src="/favicon.png" alt="the logo for StockShare" style="width: min(9vw,5em)" />
 	<h1 id="nav-title">{currentParty.name}</h1>

@@ -37,8 +37,11 @@
 			<form method="POST" use:enhance action="?/signup">
 				<h1 style="text-align: center; letter-spacing: 0.05em">Sign up</h1>
 				{#if form?.error}
-					<p class="error">{form.error}</p>
+					<p class="error">{form.error.message}</p>
 				{/if}
+				{#if form?.message}
+					<p style="text-align: center">{form.message}</p>
+				{:else}
 				<label>
 					Username:
 					<input
@@ -75,6 +78,7 @@
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 				<p class="already" on:click={() => {signupModal.close(); loginModal.showModal()}}>Already a user? Log in</p>
+				{/if}
 			</form>
 		</dialog>
 		<dialog bind:this={loginModal}>
