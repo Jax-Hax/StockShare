@@ -14,15 +14,15 @@ export async function load({ locals: { supabase, getSession } }) {
 		.eq('user_id', session.user.id)
 		.select('party_id')
 	const partyIdsArray = data.map(item => item.party_id);
-	if (error != null) throw svelteError(420, "SQL Error: " + error.message + ", try refreshing the page");
+	if (error) throw svelteError(420, "SQL Error: " + error.message + ", try refreshing the page");
 	//get party data
 	const { data: parties, error: partyError } = await supabase
 		.from('parties')
 		.select()
 		.in('party_id', partyIdsArray);
+	if (partyError) throw svelteError(420, "SQL Error: " + partyError.message + ", try refreshing the page");
 	const user_id = session.user.id;
 	return {
-		user_id,
 		parties
 	};
 }

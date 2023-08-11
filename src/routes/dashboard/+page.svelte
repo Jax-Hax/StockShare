@@ -88,7 +88,7 @@
 					style="margin: 1em"
 					on:click={() => join(party.party_id, party)}>Stock Dashboard</button
 				>
-				{#if data.userID == party.owner_id}
+				{#if data.session.user.id == party.owner_id}
 					<button
 						class="redButton"
 						style="margin: 1em;"
