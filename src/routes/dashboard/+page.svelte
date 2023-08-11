@@ -1,13 +1,14 @@
 <script>
-	import NewCompetitionForm from './NewCompetitionForm.svelte'
-	import { invalidate, invalidateAll } from '$app/navigation';
+	import NewCompetitionForm from './NewCompetitionForm.svelte';
+	import { invalidateAll } from '$app/navigation';
 	import { goto } from '$app/navigation';
-	//user ID and parties
 	export let data;
 	export let form;
+
 	//variables for the delete competition popup
 	let party_to_delete;
 	let deleteModal;
+
 	async function join(partyID) {
 		await fetch('/api/join', {
 			method: 'POST',
@@ -16,7 +17,7 @@
 				'Content-Type': 'application/json'
 			}
 		});
-		goto('/dashboard/competition')
+		goto('/dashboard/competition');
 	}
 	async function deleteParty(partyID) {
 		await fetch('/api/delete', {
@@ -29,9 +30,6 @@
 		deleteModal.close();
 		invalidateAll();
 	}
-	$: if (form?.party) {
-		join(form.party.party_id);
-	}
 </script>
 
 <svelte:head>
@@ -42,62 +40,64 @@
 	/>
 </svelte:head>
 <body>
-		<header>
-			<h1 id="nav-title">StockShare</h1>
-			<button class="loginButton">Log Out</button>
-		</header>
-		<NewCompetitionForm {form} />
-		<h1 style="text-align: center; padding: 0.5em">Your Competitions</h1>
-		<dialog bind:this={deleteModal}>
-			<span
-				class="material-symbols-outlined"
-				style="cursor: pointer; padding:0.25em; color: white; font-size: 40px"
-				on:click={deleteModal.close()}>arrow_back</span
-			>
-			<h1>
-				Are you sure you want to do this? It is permanent and will delete the competition for all
-				users involved.
-			</h1>
-			<button
-				class="bouncyButton"
-				style="margin: 1em; padding: 0.5em 1em"
-				on:click={() => deleteModal.close()}>Back</button
-			>
-			<button
-				class="redButton"
-				style="margin: 1em;"
-				on:click={() => {
-					deleteParty(party_to_delete);
-				}}>Delete FOREVER</button
-			>
-		</dialog>
-		<div id="competitionGrid">
-			{#each data.parties as party}
-				<div>
-					<h1>{party.name}</h1>
-					{#if party.num_users == 1}
-						<p>It's just you in this competition!</p>
-					{:else}
-						<p>There are {party.num_users} people in this party (including you)</p>
-					{/if}
+	<header>
+		<h1 id="nav-title">StockShare</h1>
+		<button class="loginButton">Log Out</button>
+	</header>
+	<NewCompetitionForm {form} />
+	<h1 style="text-align: center; padding: 0.5em">Your Competitions</h1>
+	<!-- svelte-ignore a11y-no-static-element-interactions -->
+	<dialog bind:this={deleteModal}>
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<span
+			class="material-symbols-outlined"
+			style="cursor: pointer; padding:0.25em; color: white; font-size: 40px"
+			on:click={() => deleteModal.close()}>arrow_back</span
+		>
+		<h1>
+			Are you sure you want to do this? It is permanent and will delete the competition for all
+			users involved.
+		</h1>
+		<button
+			class="bouncyButton"
+			style="margin: 1em; padding: 0.5em 1em"
+			on:click={() => deleteModal.close()}>Back</button
+		>
+		<button
+			class="redButton"
+			style="margin: 1em;"
+			on:click={() => {
+				deleteParty(party_to_delete);
+			}}>Delete FOREVER</button
+		>
+	</dialog>
+	<div id="competitionGrid">
+		{#each data.parties as party}
+			<div>
+				<h1>{party.name}</h1>
+				{#if party.num_users == 1}
+					<p>It's just you in this competition!</p>
+				{:else}
+					<p>There are {party.num_users} people in this party (including you)</p>
+				{/if}
+				<button
+					class="bouncyButton"
+					style="margin: 1em"
+					on:click={() => join(party.party_id, party)}>Stock Dashboard</button
+				>
+				{#if data.userID == party.owner_id}
 					<button
-						class="bouncyButton"
-						style="margin: 1em"
-						on:click={() => join(party.party_id, party)}>Stock Dashboard</button
+						class="redButton"
+						style="margin: 1em;"
+						on:click={() => {
+							party_to_delete = party.party_id;
+							deleteModal.showModal();
+						}}>Delete competition</button
 					>
-					{#if data.userID == party.owner_id}
-						<button
-							class="redButton"
-							style="margin: 1em;"
-							on:click={() => {
-								party_to_delete = party.party_id;
-								deleteModal.showModal();
-							}}>Delete competition</button
-						>
-					{/if}
-				</div>
-			{/each}
-		</div>
+				{/if}
+			</div>
+		{/each}
+	</div>
 </body>
 
 <style>
@@ -135,7 +135,7 @@
 	body p {
 		color: white;
 	}
-	
+
 	#competitionGrid {
 		display: grid;
 		gap: 1rem;
@@ -151,45 +151,6 @@
 		font-size: 1.25em;
 		border-radius: 16px;
 		text-align: center;
-	}
-	#stockDash {
-		display: grid;
-		gap: 1rem;
-		grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-		padding: 1em;
-	}
-	.leaderboardChild {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		padding: 1em;
-		background-color: #363636;
-		border-radius: 16px;
-		margin: 0.5em;
-		max-width: 740px;
-	}
-	#yourStocks,
-	#leaderboard {
-		background-color: #2c2c2c;
-		padding: 2em;
-		color: white;
-		border-radius: 16px;
-		font-size: 1.25em;
-		border-radius: 16px;
-		text-align: center;
-	}
-	
-	#stockTable {
-		display: grid;
-		grid-template-columns: repeat(10, 1fr);
-		background-color: black;
-		gap: 1px;
-		overflow: scroll;
-		border-radius: 10px;
-	}
-	#stockTable > p {
-		padding: 1em;
-		background-color: #363636;
 	}
 	.redButton {
 		background-color: #ea5252;
@@ -212,7 +173,7 @@
 		border-style: solid;
 		margin: -1px;
 	}
-	
+
 	dialog {
 		top: 50%;
 		left: 50%;

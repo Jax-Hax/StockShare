@@ -75,7 +75,7 @@ export const actions = {
 				error: error.message,
 			});
 		}
-		cookies.set('party_id',data[0].party_id, { path: '/' })
+		cookies.set('party_id', data[0].party_id, { path: '/' })
 		throw redirect(302, '/dashboard/competition');
 	}
 }
