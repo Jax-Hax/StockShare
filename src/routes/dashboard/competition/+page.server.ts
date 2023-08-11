@@ -56,7 +56,7 @@ export async function load({ cookies }) {
         .from('parties')
         .select('starting_cash,name')
         .eq('party_id', partyID);
-    if (error != null) {
+    if (partyError != null) {
     console.log(error)
     }
     return { stockData, leaderboard,currentParty };

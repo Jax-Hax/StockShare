@@ -1,17 +1,14 @@
 <script>
 	import NewCompetitionForm from './NewCompetitionForm.svelte'
-	import { invalidate } from '$app/navigation';
+	import { invalidate, invalidateAll } from '$app/navigation';
 	import { goto } from '$app/navigation';
 	//user ID and parties
 	export let data;
 	export let form;
-	let currentParty;
-	let stocks;
 	//variables for the delete competition popup
-	let party_id_delete;
+	let party_to_delete;
 	let deleteModal;
-	
-	async function join(partyID, party) {
+	async function join(partyID) {
 		await fetch('/api/join', {
 			method: 'POST',
 			body: JSON.stringify({ partyID }),
@@ -30,10 +27,10 @@
 			}
 		});
 		deleteModal.close();
-		invalidate((url) => url.pathname === '/path');
+		invalidateAll();
 	}
 	$: if (form?.party) {
-		join(form.party.party_id, form.party);
+		join(form.party.party_id);
 	}
 </script>
 
@@ -70,7 +67,7 @@
 				class="redButton"
 				style="margin: 1em;"
 				on:click={() => {
-					deleteParty(party_id_delete);
+					deleteParty(party_to_delete);
 				}}>Delete FOREVER</button
 			>
 		</dialog>
@@ -93,7 +90,7 @@
 							class="redButton"
 							style="margin: 1em;"
 							on:click={() => {
-								party_id_delete = party.party_id;
+								party_to_delete = party.party_id;
 								deleteModal.showModal();
 							}}>Delete competition</button
 						>

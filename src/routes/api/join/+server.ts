@@ -5,5 +5,5 @@ import yahooFinance from 'yahoo-finance2';
 export async function POST({ request, cookies }) {
 	const { partyID } = await request.json();
 	cookies.set('party_id',partyID,{ path: '/' })
-
+	return new Response(null, { status: 204 });
 }
