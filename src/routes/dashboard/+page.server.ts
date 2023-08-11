@@ -1,15 +1,17 @@
 import { redirect } from '@sveltejs/kit';
-import { supabase } from '$lib/database';
 import { error as svelteError } from '@sveltejs/kit';
 import { fail } from '@sveltejs/kit';
-export async function load({ cookies }) {
-	//get user id
-	const userID = cookies.get('user');
+export async function load({ locals: { supabase, getSession } }) {
+	const session = await getSession()
+
+	if (!session) {
+	  throw redirect(303, '/')
+	}
 	//get the party ids the user is a part of
 	const { data, error } = await supabase
 		.from('usersInParty')
 		.select('*')
-		.eq('user_id', userID)
+		.eq('user_id', session.user.id)
 		.select('party_id')
 	const partyIdsArray = data.map(item => item.party_id);
 	if (error != null) throw svelteError(420, "SQL Error: " + error.message + ", try refreshing the page");
@@ -18,17 +20,16 @@ export async function load({ cookies }) {
 		.from('parties')
 		.select()
 		.in('party_id', partyIdsArray);
-
+	const user_id = session.user.id;
 	return {
-		userID,
+		user_id,
 		parties
 	};
 }
 export const actions = {
-	newParty: async ({ cookies, request }) => {
+	newParty: async ({ locals: { supabase, getSession }, request, cookies }) => {
 		const formData = await request.formData();
-		const userID = cookies.get('user');
-
+		const session = await getSession()
 		const getValue = (field: string) => {
 			const value = formData.get(field);
 			return value !== '' ? value : null;
@@ -52,7 +53,7 @@ export const actions = {
 			.from('parties')
 			.insert({
 				...insertData,
-				owner_id: userID,
+				owner_id: session?.user.id,
 			})
 			.select('party_id');
 		if (insertError) {
@@ -66,7 +67,7 @@ export const actions = {
 			.from('usersInParty')
 			.insert({
 				party_id: data[0].party_id,
-				user_id: userID
+				user_id: session?.user.id
 			});
 
 		if (error) {
@@ -83,35 +84,6 @@ export const actions = {
 		if (session) {
 		  await supabase.auth.signOut()
 		  throw redirect(303, '/')
-		}
-	  },
-	  newParty: async ({ cookies, request }){
-		const formData = await request.formData();
-		const partyID = formData.get('party_id')
-		const userID = cookies.get('user');
-		//delete usersInParty
-		const { error } = await supabase
-			.from('usersInParty')
-			.delete()
-			.match({ user_id: userID, party_id: partyID });
-		if(error != null){
-			console.log(error)
-		}
-		//delete stocks
-		const { error: error2 } = await supabase
-			.from('stocks')
-			.delete()
-			.match({ user_id: userID, party_id: partyID });
-		if(error2 != null){
-			console.log(error2)
-		}
-		//delete party
-		const { error: error3 } = await supabase
-			.from('parties')
-			.delete()
-			.eq('party_id', partyID);
-		if(error3 != null){
-			console.log(error3)
 		}
 	  }
 }
