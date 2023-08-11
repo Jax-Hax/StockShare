@@ -1,3 +1,4 @@
+import { redirect } from '@sveltejs/kit';
 import { supabase } from '$lib/database';
 import { error as svelteError } from '@sveltejs/kit';
 import { fail } from '@sveltejs/kit';
@@ -53,7 +54,7 @@ export const actions = {
 				...insertData,
 				owner_id: userID,
 			})
-			.select();
+			.select('party_id');
 		if (insertError) {
 			console.log(insertError);
 			return fail(422, {
@@ -74,8 +75,7 @@ export const actions = {
 				error: error.message,
 			});
 		}
-		return {
-			party: data[0]
-		}
+		cookies.set('party_id', data[0].party_id, { path: '/' })
+		throw redirect(302, '/dashboard/competition');
 	}
 }
