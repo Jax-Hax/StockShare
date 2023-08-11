@@ -1,4 +1,4 @@
-import { fail } from '@sveltejs/kit'
+import { fail, redirect } from '@sveltejs/kit'
 
 export const actions = {
   signup: async ({ request, url, locals: { supabase } }) => {
@@ -20,7 +20,7 @@ export const actions = {
     }
 
     return {
-      message: 'Please check your email for a magic link to log into the website.',
+      message: 'Please check your email for a confirmation email to log into the website.',
       success: true,
     }
   },
@@ -39,9 +39,6 @@ export const actions = {
       return fail(422, { message: error.message, success: false, email })
     }
 
-    return {
-      message: 'Please check your email for a magic link to log into the website.',
-      success: true,
-    }
+    throw redirect(302, `/auth/callback`)
   },
 }
