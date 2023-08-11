@@ -1,35 +1,11 @@
 <script>
 	import NewCompetitionForm from './NewCompetitionForm.svelte';
-	import { invalidateAll } from '$app/navigation';
-	import { goto } from '$app/navigation';
 	export let data;
 	export let form;
 
 	//variables for the delete competition popup
 	let party_to_delete;
 	let deleteModal;
-
-	async function join(partyID) {
-		await fetch('/api/join', {
-			method: 'POST',
-			body: JSON.stringify({ partyID }),
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
-		goto('/dashboard/competition');
-	}
-	async function deleteParty(partyID) {
-		await fetch('/api/delete', {
-			method: 'POST',
-			body: JSON.stringify({ partyID }),
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
-		deleteModal.close();
-		invalidateAll();
-	}
 </script>
 
 <svelte:head>
@@ -83,11 +59,11 @@
 				{:else}
 					<p>There are {party.num_users} people in this party (including you)</p>
 				{/if}
+				<form method="post" action="?/joinParty">
 				<button
-					class="bouncyButton"
-					style="margin: 1em"
-					on:click={() => join(party.party_id, party)}>Stock Dashboard</button
-				>
+					class="bouncyButton" name="party_id" value={party.party_id}
+					style="margin: 1em" >Stock Dashboard</button>
+				</form>
 				{#if data.session.user.id == party.owner_id}
 					<button
 						class="redButton"
