@@ -1,9 +1,8 @@
 import { supabase } from '$lib/database';
-import { json } from '@sveltejs/kit';
 import yahooFinance from 'yahoo-finance2';
 
 export async function load({ cookies }) {
-	const { partyID } = await request.json();
+	const partyID = cookies.get('party_id');
 	const userID = cookies.get('user');
 	//leaderboard
 	const { data: leaderboard, error: usersInPartyError } = await supabase
@@ -51,6 +50,15 @@ export async function load({ cookies }) {
             quantity: (stock.quantity).toFixed(2),
         });
     }
-    return json({ stockData, leaderboard }, { status: 201 });
+    //party data
+    //players stock data from supabase
+	const { data: currentParty, error: partyError } = await supabase
+        .from('parties')
+        .select('starting_cash')
+        .eq('party_id', partyID);
+    if (error != null) {
+    console.log(error)
+    }
+    return { stockData, leaderboard,currentParty };
 
 }

@@ -1,3 +1,7 @@
+<script>
+    export let data;
+    let starting_cash = data.currentParty[0].starting_cash
+</script>
 <header>
     <img src="/favicon.png" alt="the logo for StockShare" style="width: min(9vw,5em)" />
     <h1 id="nav-title">{currentParty.name}</h1>
@@ -23,7 +27,7 @@
             <p>Total Gain $</p>
             <p>Qty</p>
             <p>Price Paid</p>
-            {#each stocks.stockData as stock}
+            {#each data.stockData as stock}
                 <p style="color: #266bff">{stock.symbol}</p>
                 {#if stock.total < 0}
                     <p>-${stock.total * -1}</p>
@@ -59,13 +63,13 @@
     </div>
     <div id="leaderboard">
         <h1>Leaderboard</h1>
-        {#each stocks.leaderboard as player, i}
+        {#each data.leaderboard as player, i}
             <div class="leaderboardChild">
                 <p>{i + 1}. {player.name}</p>
-                {#if player.money - currentParty.starting_cash < 0}
-                    <p style="color: red">-${(player.money - currentParty.starting_cash) * -1}</p>
+                {#if player.money - starting_cash < 0}
+                    <p style="color: red">-${(player.money - starting_cash) * -1}</p>
                 {:else}
-                    <p style="color: var(--green)">${player.money - currentParty.starting_cash}</p>
+                    <p style="color: var(--green)">${player.money - starting_cash}</p>
                 {/if}
             </div>
         {/each}

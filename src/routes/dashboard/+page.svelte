@@ -1,27 +1,26 @@
 <script>
 	import NewCompetitionForm from './NewCompetitionForm.svelte'
 	import { invalidate } from '$app/navigation';
+	import { goto } from '$app/navigation';
 	//user ID and parties
 	export let data;
 	export let form;
 	let isLobby = true;
 	let currentParty;
 	let stocks;
-
 	//variables for the delete competition popup
 	let party_id_delete;
 	let deleteModal;
-
+	
 	async function join(partyID, party) {
-		const response = await fetch('/api/join', {
+		await fetch('/api/join', {
 			method: 'POST',
 			body: JSON.stringify({ partyID }),
 			headers: {
 				'Content-Type': 'application/json'
 			}
 		});
-		currentParty = party;
-		stocks = await response.json();
+		goto('/dashboard/competition')
 		isLobby = false;
 	}
 	async function deleteParty(partyID) {
