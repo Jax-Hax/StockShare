@@ -42,7 +42,10 @@
 <body>
 	<header>
 		<h1 id="nav-title">StockShare</h1>
-		<button class="loginButton">Log Out</button>
+		<form method="post" action="?/signout">
+			<button class="loginButton">Log Out</button>
+		</form>
+		
 	</header>
 	<NewCompetitionForm {form} />
 	<h1 style="text-align: center; padding: 0.5em">Your Competitions</h1>
@@ -63,13 +66,13 @@
 			style="margin: 1em; padding: 0.5em 1em"
 			on:click={() => deleteModal.close()}>Back</button
 		>
+		<form method="post" action="?/deleteParty">
+			<input type="hidden" name="party_id" value={party_to_delete} />
+
 		<button
 			class="redButton"
-			style="margin: 1em;"
-			on:click={() => {
-				deleteParty(party_to_delete);
-			}}>Delete FOREVER</button
-		>
+			style="margin: 1em;">Delete FOREVER</button
+		></form>
 	</dialog>
 	<div id="competitionGrid">
 		{#each data.parties as party}
