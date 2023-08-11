@@ -1,6 +1,6 @@
 <script>
     export let data;
-    let starting_cash = data.currentParty[0].starting_cash
+    const currentParty = data.currentParty[0];
 </script>
 <header>
     <img src="/favicon.png" alt="the logo for StockShare" style="width: min(9vw,5em)" />
@@ -13,6 +13,7 @@
         }}>Back</button
     >
 </header>
+<body>
 <section id="stockDash">
     <div id="yourStocks">
         <h1>Your Stocks</h1>
@@ -66,12 +67,58 @@
         {#each data.leaderboard as player, i}
             <div class="leaderboardChild">
                 <p>{i + 1}. {player.name}</p>
-                {#if player.money - starting_cash < 0}
-                    <p style="color: red">-${(player.money - starting_cash) * -1}</p>
+                {#if player.money - currentParty.starting_cash < 0}
+                    <p style="color: red">-${(player.money - currentParty.starting_cash) * -1}</p>
                 {:else}
-                    <p style="color: var(--green)">${player.money - starting_cash}</p>
+                    <p style="color: var(--green)">${player.money - currentParty.starting_cash}</p>
                 {/if}
             </div>
         {/each}
     </div>
 </section>
+</body>
+<style>
+    body h1,
+	body p {
+		color: white;
+	}
+    #stockDash {
+		display: grid;
+		gap: 1rem;
+		grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+		padding: 1em;
+	}
+	.leaderboardChild {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		padding: 1em;
+		background-color: #363636;
+		border-radius: 16px;
+		margin: 0.5em;
+		max-width: 740px;
+	}
+	#yourStocks,
+	#leaderboard {
+		background-color: #2c2c2c;
+		padding: 2em;
+		color: white;
+		border-radius: 16px;
+		font-size: 1.25em;
+		border-radius: 16px;
+		text-align: center;
+	}
+	
+	#stockTable {
+		display: grid;
+		grid-template-columns: repeat(10, 1fr);
+		background-color: black;
+		gap: 1px;
+		overflow: scroll;
+		border-radius: 10px;
+	}
+	#stockTable > p {
+		padding: 1em;
+		background-color: #363636;
+	}
+</style>
