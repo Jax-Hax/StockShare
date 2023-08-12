@@ -1,5 +1,4 @@
 <script>
-	import { enhance } from '$app/forms';
 	import NewCompetitionForm from './NewCompetitionForm.svelte';
 	export let data;
 	export let form;

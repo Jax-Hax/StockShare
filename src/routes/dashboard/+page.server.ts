@@ -1,7 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 import { error as svelteError } from '@sveltejs/kit';
 import { fail } from '@sveltejs/kit';
-export async function load({ locals: { supabase, getSession } }) {
+export async function load({ locals: { supabase, getSession } ,url}) {
 	const session = await getSession()
 
 	if (!session) {
@@ -35,7 +35,8 @@ export const actions = {
 		};
 
 		const insertData = {
-			name: getValue('name') || 'Untitled',
+			party_name: getValue('party_name'),
+			join_password: getValue('join_password'),
 			max_players: getValue('max_players'),
 			starting_cash: getValue('starting_cash') || '10000',
 			max_stock_num: getValue('max_stock_num'),
