@@ -1,14 +1,16 @@
 <script>
 	import { goto } from '$app/navigation';
+	import Invite from './Invite.svelte';
 	import Leaderboard from './Leaderboard.svelte';
 	import StockTable from './StockTable.svelte';
 
 	export let data;
-	const currentParty = data.currentParty[0];
+	let currentParty;
+	$: currentParty = data.currentParty[0];
 </script>
 
 <svelte:head>
-	<title>{currentParty.name}</title>
+	<title>{currentParty.party_name}</title>
 	<meta
 		name="description"
 		content="Learn about the stock market without risk. Invite your friends to a competition for free!"
@@ -17,7 +19,7 @@
 
 <header>
 	<img src="/favicon.png" alt="the logo for StockShare" style="width: min(9vw,5em)" />
-	<h1 id="nav-title">{currentParty.name}</h1>
+	<h1 id="nav-title">{currentParty.party_name}</h1>
 	<button
 		class="loginButton"
 		on:click={() => {
@@ -26,6 +28,9 @@
 		>Back
 	</button>
 </header>
+{#if currentParty.owner_id == data.session.user.id}
+	<Invite {data}/>
+{/if}
 <body>
 	<section id="stockDash">
 		<StockTable {data} />
