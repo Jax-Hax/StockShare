@@ -9,6 +9,7 @@
 	<span class="material-symbols-outlined"> help </span>
 		<form method="POST" use:enhance action="?/inviteUsers" class="rowChild">
 			<h2>Invite by email</h2>
+            <p style="color: white">Send an invite link to the user</p>
 			<input name="emails" type="text" required placeholder="Emails to invite (comma seperated)" />
             <br>
 			<input type="submit" value="Submit" />
@@ -20,7 +21,7 @@
 			</p>
             <h3 style="margin: 0.5em 0">Party Name: {currentParty.party_name}</h3>
             <h3 style="margin: 0.5em 0">Public Password: {currentParty.join_password}</h3>
-            <p style="color: red">
+            <p style="color: #eb3838">
 				WARNING: Any user with this name and password will be able to join your party
 			</p>
 		</div>
