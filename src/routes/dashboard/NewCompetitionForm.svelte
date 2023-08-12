@@ -10,12 +10,17 @@
             {#if form?.error}
                 <p class="error">{form.error}</p>
             {/if}
-            <input name="name" style="font-size: 25px" required placeholder="Competition Name" />
+            <input name="party_name" style="font-size: 25px" required placeholder="Competition name (must be unique)" />
             <input
                 name="starting_cash"
                 type="number"
                 required
                 placeholder="Amount of cash each player starts with"
+            />
+			<input
+                name="join_password"
+                required
+                placeholder="Public password you can share to invite users to your party"
             />
         </div>
         <div>

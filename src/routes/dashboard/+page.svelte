@@ -21,7 +21,6 @@
 		<form method="post" action="?/signout">
 			<button class="loginButton">Log Out</button>
 		</form>
-		
 	</header>
 	<NewCompetitionForm {form} />
 	<h1 style="text-align: center; padding: 0.5em">Your Competitions</h1>
@@ -45,10 +44,8 @@
 		<form method="post" action="?/deleteParty">
 			<input type="hidden" name="party_id" value={party_to_delete} />
 
-		<button
-			class="redButton"
-			style="margin: 1em;">Delete FOREVER</button
-		></form>
+			<button class="redButton" style="margin: 1em;">Delete FOREVER</button>
+		</form>
 	</dialog>
 	<div id="competitionGrid">
 		{#each data.parties as party}
@@ -60,9 +57,9 @@
 					<p>There are {party.num_users} people in this party (including you)</p>
 				{/if}
 				<form method="post" action="?/joinParty">
-				<button
-					class="bouncyButton" name="party_id" value={party.party_id}
-					style="margin: 1em" >Stock Dashboard</button>
+					<button class="bouncyButton" name="party_id" value={party.party_id} style="margin: 1em"
+						>Stock Dashboard</button
+					>
 				</form>
 				{#if data.session.user.id == party.owner_id}
 					<button

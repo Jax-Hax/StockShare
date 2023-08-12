@@ -36,7 +36,6 @@
 		color: white;
 		border-radius: 16px;
 		font-size: 1.25em;
-		border-radius: 16px;
 		text-align: center;
 	}
 </style>

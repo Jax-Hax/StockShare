@@ -1,11 +1,11 @@
 import { redirect } from '@sveltejs/kit';
 import { error as svelteError } from '@sveltejs/kit';
 import { fail } from '@sveltejs/kit';
-export async function load({ locals: { supabase, getSession } }) {
+export async function load({ locals: { supabase, getSession } ,url}) {
 	const session = await getSession()
 
 	if (!session) {
-	  throw redirect(303, '/')
+		throw redirect(303, '/')
 	}
 	//get the party ids the user is a part of
 	const { data, error } = await supabase
@@ -35,7 +35,8 @@ export const actions = {
 		};
 
 		const insertData = {
-			name: getValue('name') || 'Untitled',
+			party_name: getValue('party_name'),
+			join_password: getValue('join_password'),
 			max_players: getValue('max_players'),
 			starting_cash: getValue('starting_cash') || '10000',
 			max_stock_num: getValue('max_stock_num'),
@@ -81,16 +82,16 @@ export const actions = {
 	signout: async ({ locals: { supabase, getSession } }) => {
 		const session = await getSession()
 		if (session) {
-		  await supabase.auth.signOut()
-		  throw redirect(303, '/')
+			await supabase.auth.signOut()
+			throw redirect(303, '/')
 		}
-	  },
-	  joinParty: async ({ locals: { supabase, getSession }, request, cookies }) => {
+	},
+	joinParty: async ({ request, cookies }) => {
 		const formData = await request.formData();
 		const partyID = formData.get('party_id')
-		cookies.set('party_id',partyID,{ path: '/' })
+		cookies.set('party_id', partyID, { path: '/' })
 		throw redirect(302, '/dashboard/competition');
-	  },
+	},
 	deleteParty: async ({ locals: { supabase, getSession }, request }) => {
 		const formData = await request.formData();
 		const partyID = formData.get('party_id')
@@ -100,16 +101,16 @@ export const actions = {
 		const { error } = await supabase
 			.from('usersInParty')
 			.delete()
-			.match({ user_id: userID, party_id: partyID });
-		if(error != null){
+			.eq('party_id', partyID);
+		if (error) {
 			console.log(error)
 		}
 		//delete stocks
 		const { error: error2 } = await supabase
 			.from('stocks')
 			.delete()
-			.match({ user_id: userID, party_id: partyID });
-		if(error2 != null){
+			.eq('party_id', partyID);
+		if (error2) {
 			console.log(error2)
 		}
 		//delete party
@@ -117,7 +118,7 @@ export const actions = {
 			.from('parties')
 			.delete()
 			.eq('party_id', partyID);
-		if(error3 != null){
+		if (error3) {
 			console.log(error3)
 		}
 	}

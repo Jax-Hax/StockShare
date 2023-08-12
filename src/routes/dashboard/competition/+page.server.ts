@@ -58,7 +58,7 @@ export async function load({ cookies ,locals: { supabase, getSession }}) {
     //players stock data from supabase
 	const { data: currentParty, error: partyError } = await supabase
         .from('parties')
-        .select('starting_cash,name')
+        .select('starting_cash,party_name,owner_id,join_password')
         .eq('party_id', partyID);
     if (partyError != null) {
     console.log(error)
