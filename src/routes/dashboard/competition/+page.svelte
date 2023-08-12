@@ -29,7 +29,7 @@
 	</button>
 </header>
 {#if currentParty.owner_id == data.session.user.id}
-	<Invite {data}/>
+	<Invite {currentParty}/>
 {/if}
 <body>
 	<section id="stockDash">

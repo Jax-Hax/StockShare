@@ -19,7 +19,7 @@
             />
 			<input
                 name="join_password"
-                required type="password"
+                required
                 placeholder="Public password you can share to invite users to your party"
             />
         </div>
