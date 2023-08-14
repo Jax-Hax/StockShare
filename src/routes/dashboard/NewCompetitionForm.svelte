@@ -1,81 +1,90 @@
 <script>
-    export let form; // Receive the 'form' prop from the parent component
-    import { enhance } from '$app/forms';
-  </script>
-<div style="background-color: #1e1e1e; padding-bottom: 1em">
-    <h1 style="text-align: center; padding:0.3em">New Competition</h1>
-    <form method="POST" use:enhance action="?/newParty" id="partyMaker">
-        <div>
-            <h1>Main</h1>
-            {#if form?.error}
-                <p class="error">{form.error}</p>
-            {/if}
-            <input name="party_name" style="font-size: 25px" required placeholder="Competition name (must be unique)" />
-            <input
-                name="starting_cash"
-                type="number"
-                required
-                placeholder="Amount of cash each player starts with"
-            />
-			<input
-                name="join_password"
-                required
-                placeholder="Public password you can share to invite users to your party"
-            />
-        </div>
-        <div>
-            <h1>Extra</h1>
-            <input
-                name="max_players"
-                type="number"
-                placeholder="Max number of players allowed (leave blank for unlimited)"
-            />
-            <input
-                name="max_stock_num"
-                type="number"
-                placeholder="Maximum number of unique stocks any player can have at once (leave blank for unlimited)"
-            />
-            <input
-                name="min_stock_price"
-                type="number"
-                step="0.01"
-                placeholder="Minimum price of a stock, to prevent penny stocks (leave blank for 0)"
-            />
-            <input
-                name="max_sells"
-                type="number"
-                placeholder="The maximum number of times people can sell a stock (leave blank for unlimited)"
-            />
-            Are index funds allowed:
-            <label class="switch">
-                <input name="index_funds_allowed" type="checkbox" />
-                <span class="slider" />
-            </label>
-            <br />
-            Is buying just a part of a stock (partial) allowed:
-            <label class="switch">
-                <input name="partials_allowed" type="checkbox" />
-                <span class="slider" />
-            </label>
-            <br />
-            Is the Leaderboard enabled:
-            <label class="switch">
-                <input name="leaderboard_enabled" type="checkbox" />
-                <span class="slider" />
-            </label>
-            <br />
-            Automatic Dividend Reinvesting (money will be deposited to account if not):
-            <label class="switch">
-                <input name="drip_enabled" type="checkbox" />
-                <span class="slider" />
-            </label>
-        </div>
-    </form>
-    <input id="submitPartyBtn" type="submit" form="partyMaker" value="Create New Competition" />
-    </div>  
+	export let form; // Receive the 'form' prop from the parent component
+	import { enhance } from '$app/forms';
+</script>
 
-    <style>
-#partyMaker {
+<div id="competition">
+	<h1 style="text-align: center; padding:0.3em">New Competition</h1>
+	<form method="POST" use:enhance action="?/newParty" id="partyMaker">
+		<div>
+			<h1>Main</h1>
+			{#if form?.error}
+				<p class="error">{form.error}</p>
+			{/if}
+			<input
+				name="party_name"
+				style="font-size: 25px"
+				required
+				placeholder="Competition name (must be unique)"
+			/>
+			<input
+				name="starting_cash"
+				type="number"
+				required
+				placeholder="Amount of cash each player starts with"
+			/>
+			<input
+				name="join_password"
+				required
+				placeholder="Public password you can share to invite users to your party"
+			/>
+		</div>
+		<div>
+			<h1>Extra</h1>
+			<input
+				name="max_players"
+				type="number"
+				placeholder="Max number of players allowed (leave blank for unlimited)"
+			/>
+			<input
+				name="max_stock_num"
+				type="number"
+				placeholder="Maximum number of unique stocks any player can have at once (leave blank for unlimited)"
+			/>
+			<input
+				name="min_stock_price"
+				type="number"
+				step="0.01"
+				placeholder="Minimum price of a stock, to prevent penny stocks (leave blank for 0)"
+			/>
+			<input
+				name="max_sells"
+				type="number"
+				placeholder="The maximum number of times people can sell a stock (leave blank for unlimited)"
+			/>
+			Are index funds allowed:
+			<label class="switch">
+				<input name="index_funds_allowed" type="checkbox" />
+				<span class="slider" />
+			</label>
+			<br />
+			Is buying just a part of a stock (partial) allowed:
+			<label class="switch">
+				<input name="partials_allowed" type="checkbox" />
+				<span class="slider" />
+			</label>
+			<br />
+			Is the Leaderboard enabled:
+			<label class="switch">
+				<input name="leaderboard_enabled" type="checkbox" />
+				<span class="slider" />
+			</label>
+			<br />
+			Automatic Dividend Reinvesting (money will be deposited to account if not):
+			<label class="switch">
+				<input name="drip_enabled" type="checkbox" />
+				<span class="slider" />
+			</label>
+		</div>
+	</form>
+	<input id="submitPartyBtn" type="submit" form="partyMaker" value="Create New Competition" />
+</div>
+
+<style>
+	#competition{
+		background-color: #1e1e1e; padding-bottom: 1em; margin: 2em; border-radius: 3em
+	}
+	#partyMaker {
 		display: grid;
 		gap: 1rem;
 		grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -101,7 +110,7 @@
 		color: white;
 		font-size: 18px;
 	}
-    #submitPartyBtn {
+	#submitPartyBtn {
 		padding: 1em 5em;
 		border-radius: 16px;
 		display: block;
@@ -110,7 +119,7 @@
 		background-color: var(--green);
 		border: none;
 	}
-    #submitPartyBtn:hover {
+	#submitPartyBtn:hover {
 		cursor: pointer;
 	}
 	.switch {
@@ -172,7 +181,7 @@
 		color: red;
 		font-size: 28px;
 	}
-    h1{
-        color: white
-    }
-    </style>
+	h1 {
+		color: white;
+	}
+</style>
