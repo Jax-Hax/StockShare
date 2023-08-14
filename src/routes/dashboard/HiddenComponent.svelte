@@ -1,28 +1,31 @@
 <script>
-    import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher } from 'svelte';
 
-    const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher();
 
-    function enable() {
-        dispatch('enable');
-    }
+	function enable() {
+		dispatch('enable');
+	}
 </script>
+
 <div on:click={enable} id="hidden">
-    <span id="expand" class="material-symbols-outlined">add</span>
-    <h1 style="text-align: center; flex: 1; color: white">New Competition</h1>
+	<span id="expand" class="material-symbols-outlined">add</span>
+	<slot />
 </div>
+
 <style>
-    #hidden{
-        background-color: #1e1e1e; 
-        padding: 2em;
-        margin: 2em;
-        border-radius: 3em;
-        cursor: pointer;
-        display: flex; align-items: center
-    }
-    #expand{
-        color: white;
-        font-size: 35px;
-        user-select: none;
-    }
+	#hidden {
+		background-color: #1e1e1e;
+		padding: 2em;
+		margin: 2em;
+		border-radius: 3em;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+	}
+	#expand {
+		color: white;
+		font-size: 35px;
+		user-select: none;
+	}
 </style>

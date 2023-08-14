@@ -16,9 +16,7 @@ export async function load({ locals: { supabase, getSession }, url, cookies }) {
 		if (emailError) console.log(emailError.message);
 		//join the party you were invited too
 		if (session.user.email == emailData[0].email) {
-			console.log('correct user')
 			//the correct user
-
 			//delete the emailsToInvite entry
 			const { error: emailDeleteErr } = await supabase
 				.from('emailsToInvite')
@@ -162,5 +160,44 @@ export const actions = {
 		if (error3) {
 			console.log(error3)
 		}
-	}
+	},
+	joinByPassword: async ({ locals: { supabase, getSession }, request, cookies }) => {
+		const session = await getSession()
+		const formData = await request.formData();
+		const partyName = formData.get('party_name')
+		const password = formData.get('join_password')
+		const { data, error } = await supabase
+			.from('parties')
+			.select()
+			.eq('party_name',partyName)
+			.eq('join_password',password)
+		if (error) {
+			console.log(error)
+			return fail(422, {
+				error: error.message,
+			});
+		}
+		if (data.length > 0){
+			const { error: dataError } = await supabase
+			.from('usersInParty')
+			.insert({
+				party_id: data[0].party_id,
+				user_id: session?.user.id
+			});
+
+			if (dataError) {
+				console.log(dataError);
+				return fail(422, {
+					error: dataError.message,
+				});
+			}
+			cookies.set('party_id', data[0].party_id, { path: '/' })
+			throw redirect(302, '/dashboard/competition');
+		}
+		else{
+			return fail(422, {
+				error: 'You did not input a valid name/password',
+			});
+		}
+	},
 }

@@ -1,10 +1,12 @@
 <script>
 	import HiddenComponent from './HiddenComponent.svelte';
+	import JoinByPassword from './JoinByPassword.svelte';
 import NewCompetitionForm from './NewCompetitionForm.svelte';
 	import PartyList from './PartyList.svelte';
 	export let data;
 	export let form;
 	let newCompetitionEnabled = false;
+	let joinCompetitionEnabled = false;
 </script>
 
 <svelte:head>
@@ -24,7 +26,12 @@ import NewCompetitionForm from './NewCompetitionForm.svelte';
 	{#if newCompetitionEnabled}
 	<NewCompetitionForm on:disable={() => newCompetitionEnabled = false} {form} />
 	{:else}
-	<HiddenComponent on:enable={() => newCompetitionEnabled = true}/>
+	<HiddenComponent on:enable={() => newCompetitionEnabled = true}><h1 style="text-align: center; flex: 1; color: white;">New Competition</h1></HiddenComponent>
+	{/if}
+	{#if joinCompetitionEnabled}
+	<JoinByPassword on:disable={() => joinCompetitionEnabled = false} {form} />
+	{:else}
+	<HiddenComponent on:enable={() => joinCompetitionEnabled = true}><h1 style="text-align: center; flex: 1; color: white;">Join</h1></HiddenComponent>
 	{/if}
 	<PartyList {data}/>
 </body>

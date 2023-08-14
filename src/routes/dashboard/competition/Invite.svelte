@@ -15,7 +15,7 @@
 			{/if}
 			<input name="emails" type="text" required placeholder="Emails to invite (comma seperated)" />
             <br>
-			<input type="submit" value="Submit" />
+			<input type="submit" value="Email" />
 		</form>
 		<div class="rowChild">
 			<h2>Invite by password</h2>
@@ -50,6 +50,16 @@
 		color: white;
         width: 98%;
 		font-size: 18px;
+	}
+	input[type='submit']{
+		padding: 0.5em 3em;
+		border-radius: 16px;
+		display: block;
+		margin: 0 auto;
+		font-size: 1em;
+		background-color: var(--green);
+		border: none;
+		cursor: pointer;
 	}
 	h1,
 	h2,h3 {
