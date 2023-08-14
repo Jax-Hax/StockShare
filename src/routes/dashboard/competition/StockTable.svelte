@@ -10,7 +10,6 @@
 		<p>Am. Invested</p>
 		<p>Price</p>
 		<p>Day's Gain %</p>
-		<p>Day's Gain $</p>
 		<p>Total Gain %</p>
 		<p>Total Gain $</p>
 		<p>Qty</p>
@@ -28,11 +27,6 @@
 				<p style="color: red">{stock.day_gain_percent}%</p>
 			{:else}
 				<p style="color: var(--green)">{stock.day_gain_percent}%</p>
-			{/if}
-			{#if stock.day_gain_dollar < 0}
-				<p style="color: red">-${stock.day_gain_dollar * -1}</p>
-			{:else}
-				<p style="color: var(--green)">${stock.day_gain_dollar}</p>
 			{/if}
 			{#if stock.total_gain_percent < 0}
 				<p style="color: red">{stock.total_gain_percent}%</p>
@@ -62,7 +56,7 @@
 	}
 	#stockTable {
 		display: grid;
-		grid-template-columns: repeat(10, 1fr);
+		grid-template-columns: repeat(9, 1fr);
 		background-color: black;
 		gap: 1px;
 		overflow: scroll;

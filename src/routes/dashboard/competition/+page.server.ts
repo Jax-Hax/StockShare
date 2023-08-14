@@ -42,7 +42,7 @@ export async function load({ cookies, locals: { supabase, getSession } }) {
 		const price = result.price?.regularMarketPrice;
 		const total = stock.quantity * price;
 		const totalGain = total - stock.amount_invested;
-
+		console.log(result.summaryDetail?.open)
 		stockData.push({
 			symbol: stock.ticker,
 			am_invested: stock.amount_invested.toFixed(2),
@@ -50,7 +50,6 @@ export async function load({ cookies, locals: { supabase, getSession } }) {
 			price: price.toFixed(2),
 			price_when_invested: stock.price_when_invested.toFixed(2),
 			day_gain_percent: ((price - result.summaryDetail?.open) / result.summaryDetail?.open * 100).toFixed(2),
-			day_gain_dollar: (total - (result.summaryDetail?.open * stock.quantity)).toFixed(2),
 			total_gain_percent: (((total / stock.amount_invested) - 1) * 100).toFixed(2),
 			total_gain_dollar: (totalGain).toFixed(2),
 			quantity: (stock.quantity).toFixed(2),
