@@ -10,8 +10,8 @@
 		<form method="POST" use:enhance action="?/inviteUsers" class="rowChild">
 			<h2>Invite by email</h2>
             <p style="color: white">Send an invite link to the user</p>
-			{#if form?.error}
-				<p class="error">{form.error.message}</p>
+			{#if form?.message}
+				<p class="error">{form.message}</p>
 			{/if}
 			<input name="emails" type="text" required placeholder="Emails to invite (comma seperated)" />
             <br>

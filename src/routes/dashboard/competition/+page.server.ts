@@ -74,28 +74,25 @@ export const actions = {
 		const formData = await request.formData();
 		sgMail.setApiKey(SENDGRID_API_KEY);
 		const emails = formData.get("emails")
-		console.log(emails)
-		const emailList = emails.split(',').map(email => email.trim());
+		const emailList:string[] = emails.split(',').map(email => email.trim());
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		let messages: any = [];
-		for (let email in emailList) {
+		for (let email of emailList) {
 			if (!emailRegex.test(email)) {
-				fail(422, { message: 'Email list is not formatted correctly, type in a full email for each entry (example@example.com)', success: false, email })
+				return fail(422, { message: 'Email list is not formatted correctly, type in a full email for each entry (example@example.com)', success: false })
 			}
 			const { data, error } = await supabase
-				.from('countries')
+				.from('emailsToInvite')
 				.insert({ email, party_id: cookies.get('party_id') })
 				.select('id')
 			if (error) {
 				console.log(error.message)
 			}
-			console.log(data[0].id);
-			console.log($page.url.pathname);
 			const newEmail = {
 				to: email,
 				from: 'jaxbulbrook@computerkidva.com',
 				subject: 'Join StockShare competition',
-				html: `<h1>You have been invited to a StockShare competition, a simulated investing game.</h1><a href='${data[0].id}'>Click here to join</a>`,
+				html: `<h1>You have been invited to a StockShare competition, a simulated investing game.</h1><a href='localhost:5173/dashboard?join_id=${data[0].id}'>Click here to join</a>`,
 			};
 			messages.push(newEmail);
 		}
