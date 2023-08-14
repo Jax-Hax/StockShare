@@ -16,6 +16,7 @@ export async function load({ locals: { supabase, getSession }, url, cookies }) {
 		if (emailError) console.log(emailError.message);
 		//join the party you were invited too
 		if (session.user.email == emailData[0].email) {
+			console.log('correct user')
 			//the correct user
 
 			//delete the emailsToInvite entry
