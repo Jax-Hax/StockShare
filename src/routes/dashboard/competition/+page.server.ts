@@ -92,10 +92,14 @@ export const actions = {
 				to: email,
 				from: 'jaxbulbrook@computerkidva.com',
 				subject: 'Join StockShare competition',
-				html: `<h1>You have been invited to a StockShare competition, a simulated investing game.</h1><a href='localhost:5173/dashboard?join_id=${data[0].id}'>Click here to join</a>`,
+				html: `<h1>You have been invited to a StockShare competition, a simulated investing game.</h1><a clicktracking="off" href='http://localhost:5173/dashboard?join_id=${data[0].id}'>Click here to join</a>`,
 			};
 			messages.push(newEmail);
 		}
-
+		try {
+			await sgMail.send(messages);
+		  } catch (error) {
+			console.error(error);
+		  }
 	}
 }
