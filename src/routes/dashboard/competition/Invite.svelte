@@ -1,6 +1,6 @@
 <script>
 	import { enhance } from '$app/forms';
-
+	export let form;
 	export let currentParty;
 </script>
 
@@ -10,6 +10,9 @@
 		<form method="POST" use:enhance action="?/inviteUsers" class="rowChild">
 			<h2>Invite by email</h2>
             <p style="color: white">Send an invite link to the user</p>
+			{#if form?.error}
+				<p class="error">{form.error.message}</p>
+			{/if}
 			<input name="emails" type="text" required placeholder="Emails to invite (comma seperated)" />
             <br>
 			<input type="submit" value="Submit" />
@@ -60,5 +63,10 @@
 		border-radius: 16px;
 		padding: 2em;
         margin: 1em;
+	}
+	.error {
+		text-align: center;
+		color: red;
+		font-size: 28px;
 	}
 </style>

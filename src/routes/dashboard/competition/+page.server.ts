@@ -1,14 +1,16 @@
-import { redirect } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import yahooFinance from 'yahoo-finance2';
-
-export async function load({ cookies ,locals: { supabase, getSession }}) {
+import { SENDGRID_API_KEY } from '$env/static/private'
+import sgMail from '@sendgrid/mail';
+import { page } from '$app/stores';
+export async function load({ cookies, locals: { supabase, getSession } }) {
 	const partyID = cookies.get('party_id');
 	const session = await getSession()
 
 	if (!session) {
-	  throw redirect(303, '/')
+		throw redirect(303, '/')
 	}
-    const userID = session.user.id
+	const userID = session.user.id
 	//leaderboard
 	const { data: leaderboard, error: usersInPartyError } = await supabase
 		.from('usersInParty')
@@ -25,7 +27,7 @@ export async function load({ cookies ,locals: { supabase, getSession }}) {
 		.eq('party_id', partyID)
 		.eq('user_id', userID);
 	if (error != null) {
-		console.log(error)
+		console.log(error.message)
 	}
 	//players formatted stock data from yahoofinance
 	//necessary data: symbol, am invested, total, price, day's gain % and $, total gain % and $, quantity
@@ -35,34 +37,68 @@ export async function load({ cookies ,locals: { supabase, getSession }}) {
 	//use quoteSummary to get the open or previousClose for the price that morning, and use curPrice and that for the daily change
 	let stockData: any = [];
 
-    for (const stock of data || []) {
-        const result = await yahooFinance.quoteSummary(stock.ticker);
-        const price = result.price?.regularMarketPrice;
-        const total = stock.quantity * price;
-        const totalGain = total - stock.amount_invested;
+	for (const stock of data || []) {
+		const result = await yahooFinance.quoteSummary(stock.ticker);
+		const price = result.price?.regularMarketPrice;
+		const total = stock.quantity * price;
+		const totalGain = total - stock.amount_invested;
 
-        stockData.push({
-            symbol: stock.ticker,
-            am_invested: stock.amount_invested.toFixed(2),
-            total: total.toFixed(2),
-            price: price.toFixed(2),
-            price_when_invested: stock.price_when_invested.toFixed(2),
-            day_gain_percent: ((price - result.summaryDetail?.open) / result.summaryDetail?.open * 100).toFixed(2),
-            day_gain_dollar: (total - (result.summaryDetail?.open * stock.quantity)).toFixed(2),
-            total_gain_percent: (((total / stock.amount_invested) - 1) * 100).toFixed(2),
-            total_gain_dollar: (totalGain).toFixed(2),
-            quantity: (stock.quantity).toFixed(2),
-        });
-    }
-    //party data
-    //players stock data from supabase
+		stockData.push({
+			symbol: stock.ticker,
+			am_invested: stock.amount_invested.toFixed(2),
+			total: total.toFixed(2),
+			price: price.toFixed(2),
+			price_when_invested: stock.price_when_invested.toFixed(2),
+			day_gain_percent: ((price - result.summaryDetail?.open) / result.summaryDetail?.open * 100).toFixed(2),
+			day_gain_dollar: (total - (result.summaryDetail?.open * stock.quantity)).toFixed(2),
+			total_gain_percent: (((total / stock.amount_invested) - 1) * 100).toFixed(2),
+			total_gain_dollar: (totalGain).toFixed(2),
+			quantity: (stock.quantity).toFixed(2),
+		});
+	}
+	//party data
+	//players stock data from supabase
 	const { data: currentParty, error: partyError } = await supabase
-        .from('parties')
-        .select('starting_cash,party_name,owner_id,join_password')
-        .eq('party_id', partyID);
-    if (partyError != null) {
-    console.log(error)
-    }
-    return { stockData, leaderboard,currentParty };
+		.from('parties')
+		.select('starting_cash,party_name,owner_id,join_password')
+		.eq('party_id', partyID);
+	if (partyError != null) {
+		console.log(partyError.message)
+	}
+	return { stockData, leaderboard, currentParty };
 
+}
+
+export const actions = {
+	inviteUsers: async ({ locals: { supabase }, request, cookies }) => {
+		const formData = await request.formData();
+		sgMail.setApiKey(SENDGRID_API_KEY);
+		const emails = formData.get("emails")
+		console.log(emails)
+		const emailList = emails.split(',').map(email => email.trim());
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		let messages: any = [];
+		for (let email in emailList) {
+			if (!emailRegex.test(email)) {
+				fail(422, { message: 'Email list is not formatted correctly, type in a full email for each entry (example@example.com)', success: false, email })
+			}
+			const { data, error } = await supabase
+				.from('countries')
+				.insert({ email, party_id: cookies.get('party_id') })
+				.select('id')
+			if (error) {
+				console.log(error.message)
+			}
+			console.log(data[0].id);
+			console.log($page.url.pathname);
+			const newEmail = {
+				to: email,
+				from: 'jaxbulbrook@computerkidva.com',
+				subject: 'Join StockShare competition',
+				html: `<h1>You have been invited to a StockShare competition, a simulated investing game.</h1><a href='${data[0].id}'>Click here to join</a>`,
+			};
+			messages.push(newEmail);
+		}
+
+	}
 }

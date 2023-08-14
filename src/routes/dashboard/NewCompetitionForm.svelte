@@ -101,6 +101,7 @@
 		color: white;
 		font-size: 35px;
 		user-select: none;
+		cursor: pointer;
 		padding: 1em 0 1em 1em;
 	}
 	#partyMaker {

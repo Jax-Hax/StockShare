@@ -3,7 +3,7 @@
 	import Invite from './Invite.svelte';
 	import Leaderboard from './Leaderboard.svelte';
 	import StockTable from './StockTable.svelte';
-
+	export let form;
 	export let data;
 	let currentParty;
 	$: currentParty = data.currentParty[0];
@@ -29,7 +29,7 @@
 	</button>
 </header>
 {#if currentParty.owner_id == data.session.user.id}
-	<Invite {currentParty}/>
+	<Invite {currentParty} {form}/>
 {/if}
 <body>
 	<section id="stockDash">

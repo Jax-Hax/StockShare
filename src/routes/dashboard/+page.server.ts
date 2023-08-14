@@ -3,7 +3,7 @@ import { error as svelteError } from '@sveltejs/kit';
 import { fail } from '@sveltejs/kit';
 export async function load({ locals: { supabase, getSession } ,url}) {
 	const session = await getSession()
-
+	console.log(session)
 	if (!session) {
 		throw redirect(303, '/')
 	}
