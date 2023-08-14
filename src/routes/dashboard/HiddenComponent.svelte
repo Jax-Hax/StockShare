@@ -7,8 +7,9 @@
         dispatch('enable');
     }
 </script>
-<div id="hidden">
-    <span id="expand" on:click={enable} class="material-symbols-outlined">add</span>
+<div on:click={enable} id="hidden">
+    <span id="expand" class="material-symbols-outlined">add</span>
+    <h1 style="text-align: center; flex: 1; color: white">New Competition</h1>
 </div>
 <style>
     #hidden{
@@ -17,6 +18,7 @@
         margin: 2em;
         border-radius: 3em;
         cursor: pointer;
+        display: flex; align-items: center
     }
     #expand{
         color: white;

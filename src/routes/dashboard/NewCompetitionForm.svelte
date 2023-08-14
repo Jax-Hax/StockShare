@@ -1,10 +1,20 @@
 <script>
 	export let form; // Receive the 'form' prop from the parent component
 	import { enhance } from '$app/forms';
+	import { createEventDispatcher } from 'svelte';
+
+    const dispatch = createEventDispatcher();
+
+    function disable() {
+        dispatch('disable');
+    }
 </script>
 
 <div id="competition">
-	<h1 style="text-align: center; padding:0.3em">New Competition</h1>
+	<div style="display: flex; align-items: center">
+		<span id="expand" on:click={disable} class="material-symbols-outlined">remove</span>
+		<h1 style="text-align: center; padding:0.3em; flex: 1;">New Competition</h1>
+	</div>
 	<form method="POST" use:enhance action="?/newParty" id="partyMaker">
 		<div>
 			<h1>Main</h1>
@@ -81,8 +91,17 @@
 </div>
 
 <style>
-	#competition{
-		background-color: #1e1e1e; padding-bottom: 1em; margin: 2em; border-radius: 3em
+	#competition {
+		background-color: #1e1e1e;
+		padding-bottom: 1em;
+		margin: 2em;
+		border-radius: 3em;
+	}
+	#expand {
+		color: white;
+		font-size: 35px;
+		user-select: none;
+		padding: 1em 0 1em 1em;
 	}
 	#partyMaker {
 		display: grid;

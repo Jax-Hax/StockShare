@@ -22,7 +22,7 @@ import NewCompetitionForm from './NewCompetitionForm.svelte';
 		</form>
 	</header>
 	{#if newCompetitionEnabled}
-	<NewCompetitionForm {form} />
+	<NewCompetitionForm on:disable={() => newCompetitionEnabled = false} {form} />
 	{:else}
 	<HiddenComponent on:enable={() => newCompetitionEnabled = true}/>
 	{/if}
