@@ -1,11 +1,26 @@
 import { redirect } from '@sveltejs/kit';
 import { error as svelteError } from '@sveltejs/kit';
 import { fail } from '@sveltejs/kit';
-export async function load({ locals: { supabase, getSession } ,url}) {
+export async function load({ locals: { supabase, getSession }, url }) {
 	const session = await getSession()
-	console.log(session)
+	//console.log(session)
 	if (!session) {
 		throw redirect(303, '/')
+	}
+	const join_id = url.searchParams.get('join_id')
+	if (join_id) {
+		const { data: emailData, error: emailError } = await supabase
+			.from('emailsToInvite')
+			.select()
+			.eq('id', join_id);
+		if (emailError) console.log(emailError.message);
+		//join the party you were invited too
+		if (session.user.email == emailData[0].email) {
+			//the correct user
+		}
+		else{
+			throw redirect(303, '/')
+		}
 	}
 	//get the party ids the user is a part of
 	const { data, error } = await supabase
