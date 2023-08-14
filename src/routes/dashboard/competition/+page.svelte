@@ -34,7 +34,7 @@
 <body>
 	<section id="stockDash">
 		<StockTable {data} />
-		<Leaderboard {data} {currentParty} />
+		<Leaderboard {data} {form} {currentParty} />
 	</section>
 </body>
 

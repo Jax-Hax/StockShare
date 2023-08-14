@@ -43,13 +43,6 @@
 					<p style="text-align: center">{form.message}</p>
 				{:else}
 				<label>
-					Username:
-					<input
-						name="username"
-						required placeholder="person"
-					/>
-				</label>
-				<label>
 					Email:
 					<input
 						name="email"

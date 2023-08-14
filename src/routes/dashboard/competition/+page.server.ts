@@ -42,7 +42,6 @@ export async function load({ cookies, locals: { supabase, getSession } }) {
 		const price = result.price?.regularMarketPrice;
 		const total = stock.quantity * price;
 		const totalGain = total - stock.amount_invested;
-		console.log(result.summaryDetail?.open)
 		stockData.push({
 			symbol: stock.ticker,
 			am_invested: stock.amount_invested.toFixed(2),
@@ -100,5 +99,21 @@ export const actions = {
 		  } catch (error) {
 			console.error(error);
 		  }
+	},
+	changeName: async ({ locals: { supabase,getSession }, request, cookies }) => {
+		const formData = await request.formData();
+		const session = await getSession()
+		const name = formData.get("displayName");
+		const { error } = await supabase
+			.from('usersInParty')
+			.update({ name })
+			.eq('user_id', session?.user.id)
+			.eq('party_id',cookies.get('party_id'))
+		if (error) {
+			console.log(error);
+			return fail(422, {
+				error: error.message,
+			});
+		}
 	}
 }
