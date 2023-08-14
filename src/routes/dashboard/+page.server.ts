@@ -1,7 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 import { error as svelteError } from '@sveltejs/kit';
 import { fail } from '@sveltejs/kit';
-export async function load({ locals: { supabase, getSession }, url }) {
+export async function load({ locals: { supabase, getSession }, url, cookies }) {
 	const session = await getSession()
 	//console.log(session)
 	if (!session) {
@@ -17,8 +17,33 @@ export async function load({ locals: { supabase, getSession }, url }) {
 		//join the party you were invited too
 		if (session.user.email == emailData[0].email) {
 			//the correct user
+
+			//delete the emailsToInvite entry
+			const { error: emailDeleteErr } = await supabase
+				.from('emailsToInvite')
+				.delete()
+				.eq('id', join_id);
+			if (emailDeleteErr) {
+				console.log(emailDeleteErr)
+			}
+			//add user to party
+			const { error } = await supabase
+				.from('usersInParty')
+				.insert({
+					party_id: emailData[0].party_id,
+					user_id: session?.user.id
+				});
+
+			if (error) {
+				console.log(error);
+				return fail(422, {
+					error: error.message,
+				});
+			}
+			cookies.set('party_id', emailData[0].party_id, { path: '/' })
+			throw redirect(302, '/dashboard/competition');
 		}
-		else{
+		else {
 			throw redirect(303, '/')
 		}
 	}
