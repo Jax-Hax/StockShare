@@ -194,5 +194,29 @@ export const actions = {
 				error: error.message,
 			});
 		}
+	},
+	buyStock: async ({ locals: { supabase, getSession }, request, cookies }) => {
+		//get the stock to sell, add the money made to cash (money is total including cash so dont subtract from it). Then remove the stock
+		const formData = await request.formData();
+		const symbol = formData.get("stockToBuy");
+		const session = await getSession()
+		const moneyPaid = formData.get("amToBuy");
+		const result = await yahooFinance.quoteSummary(symbol);
+		const price = result.price?.regularMarketPrice;
+		const { error } = await supabase
+			.from('stocks')
+			.insert({
+				party_id: cookies.get('party_id'),
+				user_id: session?.user.id,
+				ticker: symbol,
+				price_when_invested: price,
+				amount_invested: moneyPaid
+			})
+		if (error) {
+			console.log(error)
+			return fail(422, {
+				error: error.message,
+			});
+		}
 	}
 }
