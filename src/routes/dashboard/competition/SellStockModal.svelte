@@ -1,12 +1,56 @@
 <script>
-	import { enhance } from "$app/forms";
+	import { enhance } from '$app/forms';
 
-    export let showSellStock;
+	export let showSellStock;
 	export let form;
 	export let data;
-    let dialog;
-    $: if(dialog && showSellStock) dialog.showModal();
+	let dialog;
+	let sellAmDialog;
+	let stockToSell;
+	let percentOfStock = 0
+	let portionNum = 0;
+	
+	$: if (stockToSell && portionNum) percentOfStock = ((portionNum/stockToSell.total)*100).toFixed(2)
+	$: if (dialog && showSellStock) dialog.showModal();
 </script>
+
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+<dialog bind:this={sellAmDialog} on:click|self={() => sellAmDialog.close()}>
+	<!-- svelte-ignore a11y-no-static-element-interactions -->
+	<!-- svelte-ignore a11y-click-events-have-key-events -->
+	<div on:click|stopPropagation>
+		<span
+			class="material-symbols-outlined"
+			style="color: white; cursor: pointer"
+			on:click={() => sellAmDialog.close()}>arrow_back</span
+		>
+		{#if stockToSell}
+		<h1>Sell {stockToSell.symbol} - ${stockToSell.total}</h1>
+		{#if form?.message}
+				<p class="error">{form.message}</p>
+			{/if}
+		<hr style="margin: 1em 0" />
+		<div class="sellRow">
+		<form method="POST" use:enhance action="?/sellStock">
+			
+			<input name="stockToSell" type="hidden" value={stockToSell.stock_id} />
+			<input name="stockTotal" type="hidden" value={stockToSell.total} />
+			<input name="cashLeft" type="hidden" value={data.playerData.cash_left} />
+			<input type="submit" class="sellButton" value="Sell Entire Stock" />
+		</form>
+		<form method="POST" use:enhance action="?/sellStockPortion">
+			{#if form?.message}
+				<p class="error">{form.message}</p>
+			{/if}
+			<input name="stockToSell" type="number" required bind:value={portionNum} placeholder="Portion to sell (in dollars)" />
+			<input type="submit" class="sellButton" value="Sell Portion" />
+			<p>{percentOfStock}%</p>
+		</form>
+	</div>
+		{/if}
+	</div>
+</dialog>
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <dialog
@@ -17,57 +61,63 @@
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<div on:click|stopPropagation>
+		<span
+			class="material-symbols-outlined"
+			style="color: white; cursor: pointer"
+			on:click={() => dialog.close()}>arrow_back</span
+		>
 		<div id="row">
-		<h1>Sell Stock</h1>
-		<p>Total: {data.playerData[0].money}</p>
-		<p>Cash: {data.playerData[0].cash_left}</p>
-	</div>
-	<hr style="margin: 1em 0"/>
-		{#each data.stockData as stock}
-		<div class="sellRow">
-			<p style="color: white">{stock.symbol}</p>
-			{#if stock.total_gain_percent < 0}
-				<p style="color: red">{stock.total_gain_percent}%</p>
-			{:else}
-				<p style="color: var(--green)">{stock.total_gain_percent}%</p>
-			{/if}
-			<form method="POST" use:enhance action="?/sellStock" class="rowChild">
-				{#if form?.message}
-					<p class="error">{form.message}</p>
-				{/if}
-				<input name="stockToSell" type="hidden" value={stock.stock_id} />
-				<input type="submit" class="sellButton" value="Sell" />
-			</form>
+			<h1>Sell Stock</h1>
+			<p>Total: {data.playerData[0].money}</p>
+			<p>Cash: {data.playerData[0].cash_left}</p>
 		</div>
+		<hr style="margin: 1em 0" />
+		{#each data.stockData as stock}
+			<div class="sellRow">
+				<p style="color: white">{stock.symbol}</p>
+				{#if stock.total_gain_percent < 0}
+					<p style="color: red">{stock.total_gain_percent}%</p>
+				{:else}
+					<p style="color: var(--green)">{stock.total_gain_percent}%</p>
+				{/if}
+				<button class="sellButton" on:click={() => {stockToSell = stock; sellAmDialog.showModal()}}>Sell</button>
+			</div>
 		{/each}
-		<!-- svelte-ignore a11y-autofocus -->
-		<button autofocus on:click={() => dialog.close()}>close modal</button>
 	</div>
 </dialog>
+
 <style>
-    dialog{
-        margin: auto;
+	dialog {
+		margin: auto;
 		padding: 3em;
 		width: 50%;
 		border: none;
 		border-radius: 1em;
-        background-color: #363636;
-    }
-	h1{
-		color: white
+		background-color: #363636;
 	}
-	p{
-		font-size: min(2rem,6vw);
+	h1 {
+		color: white;
+	}
+	p {
+		font-size: min(2rem, 6vw);
 		margin-right: 0.5em;
 		text-align: center;
-		color: white
+		color: white;
 	}
-	.sellRow{
+	input[type="number"]{
+		padding: 0.75em 1em 0.75em;
+		border: 0.1em solid #46c759;
+		border-radius: 16px;
+		background-color: #121212;
+		color: white;
+		font-size: 18px;
+	}
+	.sellRow {
 		display: flex;
 		justify-content: space-around;
 		align-items: center;
 	}
-	.sellButton{
+	.sellButton {
 		border-radius: 1em;
 		padding: 0.5em 1.5em;
 		font-size: 1.35rem;
@@ -76,13 +126,16 @@
 		cursor: pointer;
 		color: white;
 	}
-	.sellButton:hover{
+	.sellButton:hover {
 		background-color: #d84b4b;
 	}
-	#row{
+	#row {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		text-align: center;
+	}
+	.error{
+		color: red;
 	}
 </style>
