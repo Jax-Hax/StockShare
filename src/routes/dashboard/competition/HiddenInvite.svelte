@@ -17,7 +17,7 @@
 <style>
 	#hidden {
 		background-color: #2c2c2c;
-		padding: 2em;
+		padding: 2vw;
 		margin: 2em;
 		border-radius: 3em;
 		cursor: pointer;

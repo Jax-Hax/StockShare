@@ -23,7 +23,6 @@
 			{/if}
 			<input
 				name="party_name"
-				style="font-size: 25px"
 				required
 				placeholder="Competition name (must be unique)"
 			/>
