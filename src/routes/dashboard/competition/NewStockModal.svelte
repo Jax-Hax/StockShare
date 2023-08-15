@@ -1,6 +1,7 @@
 <script>
     export let showNewStock;
     export let form;
+	export let data;
     let dialog;
     $: if(dialog && showNewStock) dialog.showModal();
 </script>
@@ -27,4 +28,7 @@
 		border-radius: 1em;
         background-color: #363636;
     }
+	h1{
+		color: white
+	}
 </style>

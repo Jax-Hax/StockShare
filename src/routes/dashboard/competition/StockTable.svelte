@@ -7,10 +7,10 @@
 	let showSellStock = false;
 </script>
 {#if showNewStock}
-	<NewStockModal bind:showNewStock {form}/>
+	<NewStockModal bind:showNewStock {form} {data}/>
 {/if}
 {#if showSellStock}
-	<SellStockModal bind:showSellStock {form}/>
+	<SellStockModal bind:showSellStock {form} {data}/>
 {/if}
 <div id="yourStocks">
 	<div id="row">
@@ -98,12 +98,6 @@
 		padding: 0.5em;
 		color: white;
 		font-size: 1.5rem;
-	}
-	.refresh{
-		color: white;
-		font-size: 2rem;
-		margin-left: 0.5em;
-		cursor: pointer;
 	}
 	#sellButton{
 		border-radius: 2em;

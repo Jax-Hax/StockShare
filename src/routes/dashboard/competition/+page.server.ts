@@ -19,15 +19,6 @@ export async function load({ cookies, locals: { supabase, getSession } }) {
 	if (usersInPartyError != null) {
 		console.log(usersInPartyError)
 	}
-	//player data
-	const { data: playerData, error: playerError } = await supabase
-		.from('usersInParty')
-		.select('name, money, cash_left')
-		.eq('party_id', partyID)
-		.eq('user_id', userID)
-	if (playerError != null) {
-		console.log(playerError)
-	}
 	//players stock data from supabase
 	const { data, error } = await supabase
 		.from('stocks')
@@ -76,16 +67,34 @@ export async function load({ cookies, locals: { supabase, getSession } }) {
 	for (let i = 0; i < stockData.length; i++) {
 		totalMoney += stockData[i].total
 	}
+	//cash data
+	const { data: cashData, error: cashError } = await supabase
+		.from('usersInParty')
+		.select('cash_left')
+		.eq('party_id', partyID)
+		.eq('user_id', userID)
+	if (cashError != null) {
+		console.log(cashError)
+	}
 	//update user with that
 	const { error: updateError } = await supabase
 		.from('usersInParty')
-		.update({ money: totalMoney + playerData[0].cash_left })
+		.update({ money: totalMoney + cashData[0].cash_left })
 		.eq('user_id', session?.user.id)
 		.eq('party_id', partyID)
 	if (updateError) {
 		console.log(updateError);
 	}
-	return { stockData, leaderboard, currentParty };
+	//regrab player data after update
+	const { data: playerData, error: playerError } = await supabase
+		.from('usersInParty')
+		.select('name, money, cash_left')
+		.eq('party_id', partyID)
+		.eq('user_id', userID)
+	if (playerError != null) {
+		console.log(playerError)
+	}
+	return { stockData, leaderboard, currentParty,playerData };
 
 }
 
