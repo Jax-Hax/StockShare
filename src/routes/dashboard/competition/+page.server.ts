@@ -156,7 +156,6 @@ export const actions = {
 		const partyID = cookies.get('party_id');
 		const session = await getSession()
 		const userID = session.user.id;
-		console.log(formData)
 		const cashLeft = parseFloat(formData.get('cashLeft'));
 		const stockTotal = parseFloat(formData.get('stockTotal'));
 		const { error: usersInPartyError } = await supabase
