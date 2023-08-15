@@ -29,7 +29,7 @@ export const actions = {
     }
 
     return {
-      message: 'Please check your email for a confirmation email to log into the website.',
+      message: 'Please check your email for a confirmation email to log into the website. If you do not get one, try logging in, as you might already have an account with that email.',
       success: true,
     }
   },

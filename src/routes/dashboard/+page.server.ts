@@ -95,7 +95,7 @@ export const actions = {
 				...insertData,
 				owner_id: session?.user.id,
 			})
-			.select('party_id');
+			.select('party_id,starting_cash');
 		if (insertError) {
 			console.log(insertError);
 			return fail(422, {
