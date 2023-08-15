@@ -38,7 +38,6 @@
 			</p>
 		</div>
 </div>
-
 <style>
 	#invite {
 		background-color: #2c2c2c;
