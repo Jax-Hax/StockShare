@@ -33,7 +33,7 @@
 {/if}
 <body>
 	<section id="stockDash">
-		<StockTable {data} {form} />
+		<StockTable {data} {form}/>
 		<Leaderboard {data} {form} {currentParty} />
 	</section>
 </body>

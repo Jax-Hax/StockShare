@@ -1,5 +1,4 @@
 <script>
-	import { invalidateAll } from "$app/navigation";
 	import NewStockModal from "./NewStockModal.svelte";
 	import SellStockModal from "./SellStockModal.svelte";
 	export let data;
@@ -15,7 +14,6 @@
 {/if}
 <div id="yourStocks">
 	<div id="row">
-	<span on:click={() => {invalidateAll}} class="material-symbols-outlined refresh">refresh</span>
 	<h1 style="color: white; flex: 1">Your Stocks</h1>
 	<button id="buyButton" on:click={() => (showNewStock = true)}><span class="material-symbols-outlined plus">add</span></button>
 	<button id="sellButton" on:click={() => (showSellStock = true)}>Sell</button>
