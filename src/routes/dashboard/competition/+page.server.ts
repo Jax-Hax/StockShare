@@ -72,7 +72,7 @@ export const actions = {
 		const formData = await request.formData();
 		sgMail.setApiKey(SENDGRID_API_KEY);
 		const emails = formData.get("emails")
-		const emailList:string[] = emails.split(',').map(email => email.trim());
+		const emailList: string[] = emails.split(',').map(email => email.trim());
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		let messages: any = [];
 		for (let email of emailList) {
@@ -90,17 +90,17 @@ export const actions = {
 				to: email,
 				from: 'jaxbulbrook@computerkidva.com',
 				subject: 'Join StockShare competition',
-				html: `<h1>You have been invited to a StockShare competition, a simulated investing game.</h1><a clicktracking="off" href='http://localhost:5173/dashboard?join_id=${data[0].id}'>Click here to join</a><p>You will have to sign in or make an account first, then click this link once you are logged in, otherwise you will be redirected to the login screen.</p>`,
+				html: `<h1>You have been invited to a StockShare competition, a simulated investing game.</h1><a clicktracking="off" href='https://stockshare.computerkidva.com/dashboard?join_id=${data[0].id}'>Click here to join</a><p>You will have to sign in or make an account first, then click this link once you are logged in, otherwise you will be redirected to the login screen.</p>`,
 			};
 			messages.push(newEmail);
 		}
 		try {
 			await sgMail.send(messages);
-		  } catch (error) {
+		} catch (error) {
 			console.error(error);
-		  }
+		}
 	},
-	changeName: async ({ locals: { supabase,getSession }, request, cookies }) => {
+	changeName: async ({ locals: { supabase, getSession }, request, cookies }) => {
 		const formData = await request.formData();
 		const session = await getSession()
 		const name = formData.get("displayName");
@@ -108,7 +108,7 @@ export const actions = {
 			.from('usersInParty')
 			.update({ name })
 			.eq('user_id', session?.user.id)
-			.eq('party_id',cookies.get('party_id'))
+			.eq('party_id', cookies.get('party_id'))
 		if (error) {
 			console.log(error);
 			return fail(422, {
