@@ -1,5 +1,6 @@
 <script>
     export let showNewStock;
+    export let form;
     let dialog;
     $: if(dialog && showNewStock) dialog.showModal();
 </script>

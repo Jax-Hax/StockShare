@@ -1,19 +1,21 @@
 <script>
+	import { invalidateAll } from "$app/navigation";
 	import NewStockModal from "./NewStockModal.svelte";
 	import SellStockModal from "./SellStockModal.svelte";
-
 	export let data;
+	export let form;
 	let showNewStock = false;
 	let showSellStock = false;
 </script>
 {#if showNewStock}
-	<NewStockModal bind:showNewStock/>
+	<NewStockModal bind:showNewStock {form}/>
 {/if}
 {#if showSellStock}
-	<SellStockModal bind:showSellStock/>
+	<SellStockModal bind:showSellStock {form}/>
 {/if}
 <div id="yourStocks">
 	<div id="row">
+	<span on:click={() => {invalidateAll}} class="material-symbols-outlined refresh">refresh</span>
 	<h1 style="color: white; flex: 1">Your Stocks</h1>
 	<button id="buyButton" on:click={() => (showNewStock = true)}><span class="material-symbols-outlined plus">add</span></button>
 	<button id="sellButton" on:click={() => (showSellStock = true)}>Sell</button>
@@ -98,6 +100,12 @@
 		padding: 0.5em;
 		color: white;
 		font-size: 1.5rem;
+	}
+	.refresh{
+		color: white;
+		font-size: 2rem;
+		margin-left: 0.5em;
+		cursor: pointer;
 	}
 	#sellButton{
 		border-radius: 2em;

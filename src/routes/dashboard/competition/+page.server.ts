@@ -73,18 +73,18 @@ export async function load({ cookies, locals: { supabase, getSession } }) {
 	}
 	//add up the total to update the money
 	let totalMoney = 0;
-	for (let i = 0; i < stockData.length; i++){
+	for (let i = 0; i < stockData.length; i++) {
 		totalMoney += stockData[i].total
 	}
 	//update user with that
 	const { error: updateError } = await supabase
-			.from('usersInParty')
-			.update({ money: totalMoney + playerData[0].cash_left })
-			.eq('user_id', session?.user.id)
-			.eq('party_id', partyID)
-		if (updateError) {
-			console.log(updateError);
-		}
+		.from('usersInParty')
+		.update({ money: totalMoney + playerData[0].cash_left })
+		.eq('user_id', session?.user.id)
+		.eq('party_id', partyID)
+	if (updateError) {
+		console.log(updateError);
+	}
 	return { stockData, leaderboard, currentParty };
 
 }
@@ -137,5 +137,8 @@ export const actions = {
 				error: error.message,
 			});
 		}
+	},
+	sellStock: async ({ locals: { supabase, getSession }, request, cookies }) => {
+		
 	}
 }
