@@ -22,7 +22,7 @@ export async function load({ cookies, locals: { supabase, getSession } }) {
 	//players stock data from supabase
 	const { data, error } = await supabase
 		.from('stocks')
-		.select('amount_invested, ticker, invested_date, price_when_invested,quantity')
+		.select('amount_invested, ticker, invested_date, price_when_invested,quantity,stock_id')
 		.eq('party_id', partyID)
 		.eq('user_id', userID);
 	if (error != null) {
@@ -51,6 +51,7 @@ export async function load({ cookies, locals: { supabase, getSession } }) {
 			total_gain_percent: (((total / stock.amount_invested) - 1) * 100).toFixed(2),
 			total_gain_dollar: (totalGain).toFixed(2),
 			quantity: (stock.quantity).toFixed(2),
+			stock_id: stock.stock_id
 		});
 	}
 	//party data
@@ -148,6 +149,18 @@ export const actions = {
 		}
 	},
 	sellStock: async ({ locals: { supabase, getSession }, request, cookies }) => {
-		
+		//get the stock to sell, add the money made to cash (money is total including cash so dont subtract from it). Then remove the stock
+		const formData = await request.formData();
+		const stockID = formData.get("stockToSell");
+		const { error } = await supabase
+			.from('stocks')
+			.delete()
+			.eq('stock_id', stockID);
+		if (error) {
+			console.log(error)
+			return fail(422, {
+				error: error.message,
+			});
+		}
 	}
 }

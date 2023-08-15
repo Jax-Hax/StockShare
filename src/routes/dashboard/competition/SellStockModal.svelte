@@ -20,8 +20,9 @@
 		<div id="row">
 		<h1>Sell Stock</h1>
 		<p>Total: {data.playerData[0].money}</p>
-		<p>Money: {data.playerData[0].cash_left}</p>
+		<p>Cash: {data.playerData[0].cash_left}</p>
 	</div>
+	<hr style="margin: 1em 0"/>
 		{#each data.stockData as stock}
 		<div class="sellRow">
 			<p style="color: white">{stock.symbol}</p>
@@ -34,7 +35,7 @@
 				{#if form?.message}
 					<p class="error">{form.message}</p>
 				{/if}
-				<input name="stockToSell" type="hidden" value={stock.symbol} />
+				<input name="stockToSell" type="hidden" value={stock.stock_id} />
 				<input type="submit" class="sellButton" value="Sell" />
 			</form>
 		</div>
@@ -57,7 +58,9 @@
 	}
 	p{
 		font-size: min(2rem,6vw);
-		margin-right: 0.5em
+		margin-right: 0.5em;
+		text-align: center;
+		color: white
 	}
 	.sellRow{
 		display: flex;
@@ -75,5 +78,11 @@
 	}
 	.sellButton:hover{
 		background-color: #d84b4b;
+	}
+	#row{
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		text-align: center;
 	}
 </style>
