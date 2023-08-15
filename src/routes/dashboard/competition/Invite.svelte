@@ -2,10 +2,20 @@
 	import { enhance } from '$app/forms';
 	export let form;
 	export let currentParty;
+	import { createEventDispatcher } from 'svelte';
+
+    const dispatch = createEventDispatcher();
+
+    function disable() {
+        dispatch('disable');
+    }
 </script>
 
 <div id="invite">
-	<h1>Invite users to join your party</h1>
+	<div style="display: flex; align-items: center">
+		<span id="expand" on:click={disable} class="material-symbols-outlined">remove</span>
+		<h1 style="text-align: center; padding:0.3em; flex: 1;">Invite users to join your party</h1>
+	</div>
 		<form method="POST" use:enhance action="?/inviteUsers" class="rowChild">
 			<h2>Invite by email</h2>
             <p style="color: white">Send an invite link to the user</p>
@@ -49,6 +59,13 @@
 		color: white;
         width: 98%;
 		font-size: 18px;
+	}
+	#expand{
+		color: white;
+		font-size: 35px;
+		user-select: none;
+		cursor: pointer;
+		padding: 1em 0 1em 1em;
 	}
 	input[type='submit']{
 		padding: 0.5em 3em;

@@ -1,11 +1,13 @@
 <script>
 	import { goto } from '$app/navigation';
+	import HiddenInvite from './HiddenInvite.svelte';
 	import Invite from './Invite.svelte';
 	import Leaderboard from './Leaderboard.svelte';
 	import StockTable from './StockTable.svelte';
 	export let form;
 	export let data;
 	let currentParty;
+	let inviteUsersEnabled = false;
 	$: currentParty = data.currentParty[0];
 </script>
 
@@ -29,7 +31,11 @@
 	</button>
 </header>
 {#if currentParty.owner_id == data.session.user.id}
-	<Invite {currentParty} {form}/>
+	{#if inviteUsersEnabled}
+	<Invite on:disable={() => inviteUsersEnabled = false} {currentParty} {form} />
+	{:else}
+	<HiddenInvite on:enable={() => inviteUsersEnabled = true}><h1 style="text-align: center; flex: 1; color: white;">Invite users to join your party</h1></HiddenInvite>
+	{/if}
 {/if}
 <body>
 	<section id="stockDash">
