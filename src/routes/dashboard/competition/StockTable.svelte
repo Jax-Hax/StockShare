@@ -1,16 +1,22 @@
 <script>
 	import NewStockModal from "./NewStockModal.svelte";
+	import SellStockModal from "./SellStockModal.svelte";
 
 	export let data;
 	let showNewStock = false;
+	let showSellStock = false;
 </script>
 {#if showNewStock}
 	<NewStockModal bind:showNewStock/>
 {/if}
+{#if showSellStock}
+	<SellStockModal bind:showSellStock/>
+{/if}
 <div id="yourStocks">
 	<div id="row">
 	<h1 style="color: white; flex: 1">Your Stocks</h1>
-	<button on:click={() => (showNewStock = true)}><span class="material-symbols-outlined plus">add</span></button>
+	<button id="buyButton" on:click={() => (showNewStock = true)}><span class="material-symbols-outlined plus">add</span></button>
+	<button id="sellButton" on:click={() => (showSellStock = true)}>Sell</button>
 </div>
 	<div id="stockTable">
 		<p>Symbol</p>
@@ -79,18 +85,31 @@
 		display: flex;
 		align-items: center;
 	}
-	#row button{
+	#buyButton{
 		border-radius: 50%;
-		font-size: 1rem;
 		background-color: var(--green);
 		border: none;
 		cursor: pointer;
 	}
-	#row button:hover{
+	#buyButton:hover{
 		background-color: var(--dark-green);
 	}
 	.plus{
 		padding: 0.5em;
-		color: white
+		color: white;
+		font-size: 1.5rem;
+	}
+	#sellButton{
+		border-radius: 2em;
+		padding: 0.5em 1em;
+		margin-left: 1em;
+		font-size: 1.35rem;
+		background-color: #ea5252;
+		border: none;
+		cursor: pointer;
+		color: white;
+	}
+	#sellButton:hover{
+		background-color: #d84b4b;
 	}
 </style>

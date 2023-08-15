@@ -1,19 +1,19 @@
 <script>
-    export let showNewStock;
+    export let showSellStock;
     let dialog;
-    $: if(dialog && showNewStock) dialog.showModal();
+    $: if(dialog && showSellStock) dialog.showModal();
 </script>
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <dialog
 	bind:this={dialog}
-	on:close={() => (showNewStock = false)}
+	on:close={() => (showSellStock = false)}
 	on:click|self={() => dialog.close()}
 >
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<div on:click|stopPropagation>
-		<h1>New Stock</h1>
+		<h1>Sell Stock</h1>
 		<!-- svelte-ignore a11y-autofocus -->
 		<button autofocus on:click={() => dialog.close()}>close modal</button>
 	</div>
