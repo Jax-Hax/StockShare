@@ -1,5 +1,5 @@
 <script>
-	import { enhance } from "$app/forms";
+	import { enhance } from '$app/forms';
 
 	export let data, form, currentParty;
 </script>
@@ -13,13 +13,17 @@
 		<input name="displayName" class="input" type="text" required placeholder="Displayed Name" />
 		<input type="submit" id="submitPartyBtn" value="Update Name" />
 	</form>
+	<p>
+		This keeps track of the last known money for the player since their last sign in, so it may not
+		be up to date. The admin can run a function to update all players money at once.
+	</p>
 	{#each data.leaderboard as player, i}
 		<div class="leaderboardChild">
 			<p>{i + 1}. {player.name}</p>
 			{#if player.money - currentParty.starting_cash < 0}
-				<p style="color: red">-${(player.money - currentParty.starting_cash) * -1}</p>
+				<p style="color: red">-${(player.money - currentParty.starting_cash).toFixed(2) * -1}</p>
 			{:else}
-				<p style="color: var(--green)">${player.money - currentParty.starting_cash}</p>
+				<p style="color: var(--green)">${(player.money - currentParty.starting_cash).toFixed(2)}</p>
 			{/if}
 		</div>
 	{/each}
@@ -63,5 +67,8 @@
 		background-color: var(--green);
 		border: none;
 		cursor: pointer;
+	}
+	#submitPartyBtn:hover{
+		background-color: var(--dark-green);
 	}
 </style>

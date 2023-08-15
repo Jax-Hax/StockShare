@@ -2,7 +2,6 @@ import { fail, redirect } from '@sveltejs/kit';
 import yahooFinance from 'yahoo-finance2';
 import { SENDGRID_API_KEY } from '$env/static/private'
 import sgMail from '@sendgrid/mail';
-import { page } from '$app/stores';
 export async function load({ cookies, locals: { supabase, getSession } }) {
 	const partyID = cookies.get('party_id');
 	const session = await getSession()
@@ -19,6 +18,15 @@ export async function load({ cookies, locals: { supabase, getSession } }) {
 		.order('money', { ascending: false })
 	if (usersInPartyError != null) {
 		console.log(usersInPartyError)
+	}
+	//player data
+	const { data: playerData, error: playerError } = await supabase
+		.from('usersInParty')
+		.select('name, money, cash_left')
+		.eq('party_id', partyID)
+		.eq('user_id', userID)
+	if (playerError != null) {
+		console.log(playerError)
 	}
 	//players stock data from supabase
 	const { data, error } = await supabase
@@ -63,6 +71,20 @@ export async function load({ cookies, locals: { supabase, getSession } }) {
 	if (partyError != null) {
 		console.log(partyError.message)
 	}
+	//add up the total to update the money
+	let totalMoney = 0;
+	for (let i = 0; i < stockData.length; i++){
+		totalMoney += stockData[i].total
+	}
+	//update user with that
+	const { error: updateError } = await supabase
+			.from('usersInParty')
+			.update({ money: totalMoney + playerData[0].cash_left })
+			.eq('user_id', session?.user.id)
+			.eq('party_id', partyID)
+		if (updateError) {
+			console.log(updateError);
+		}
 	return { stockData, leaderboard, currentParty };
 
 }

@@ -6,7 +6,6 @@
 
 <div id="invite">
 	<h1>Invite users to join your party</h1>
-	<span class="material-symbols-outlined"> help </span>
 		<form method="POST" use:enhance action="?/inviteUsers" class="rowChild">
 			<h2>Invite by email</h2>
             <p style="color: white">Send an invite link to the user</p>
@@ -60,6 +59,9 @@
 		background-color: var(--green);
 		border: none;
 		cursor: pointer;
+	}
+	input[type="submit"]:hover{
+		background-color: var(--dark-green);
 	}
 	h1,
 	h2,h3 {

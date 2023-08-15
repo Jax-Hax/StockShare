@@ -31,7 +31,8 @@ export async function load({ locals: { supabase, getSession }, url, cookies }) {
 				.insert({
 					party_id: emailData[0].party_id,
 					user_id: session?.user.id,
-					money: emailData[0].starting_cash
+					money: emailData[0].starting_cash,
+					cash_left: emailData[0].starting_cash
 				});
 
 			if (error) {
@@ -108,7 +109,8 @@ export const actions = {
 			.insert({
 				party_id: data[0].party_id,
 				user_id: session?.user.id,
-				money: data[0].starting_cash
+				money: data[0].starting_cash,
+				cash_left: data[0].starting_cash
 			});
 
 		if (error) {
@@ -185,7 +187,8 @@ export const actions = {
 			.insert({
 				party_id: data[0].party_id,
 				user_id: session?.user.id,
-				money: data[0].starting_cash
+				money: data[0].starting_cash,
+				cash_left: data[0].starting_cash
 			});
 
 			if (dataError) {

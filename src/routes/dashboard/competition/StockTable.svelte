@@ -1,9 +1,17 @@
 <script>
-	export let data;
-</script>
+	import NewStockModal from "./NewStockModal.svelte";
 
+	export let data;
+	let showNewStock = false;
+</script>
+{#if showNewStock}
+	<NewStockModal bind:showNewStock/>
+{/if}
 <div id="yourStocks">
-	<h1 style="color: white">Your Stocks</h1>
+	<div id="row">
+	<h1 style="color: white; flex: 1">Your Stocks</h1>
+	<button on:click={() => (showNewStock = true)}><span class="material-symbols-outlined plus">add</span></button>
+</div>
 	<div id="stockTable">
 		<p>Symbol</p>
 		<p>Total</p>
@@ -66,5 +74,23 @@
 		padding: 1em;
 		color: white;
 		background-color: #363636;
+	}
+	#row{
+		display: flex;
+		align-items: center;
+	}
+	#row button{
+		border-radius: 50%;
+		font-size: 1rem;
+		background-color: var(--green);
+		border: none;
+		cursor: pointer;
+	}
+	#row button:hover{
+		background-color: var(--dark-green);
+	}
+	.plus{
+		padding: 0.5em;
+		color: white
 	}
 </style>
