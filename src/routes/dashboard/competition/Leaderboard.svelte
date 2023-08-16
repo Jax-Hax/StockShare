@@ -5,10 +5,16 @@
 </script>
 
 <div id="leaderboard">
-	<h1 style="color: white">Leaderboard</h1>
+	<div id="row">
+		<form method="POST" use:enhance action="?/refreshAllUsers">
+			<input type="submit" id="buyButton" value="Refresh Leaderboard" />
+		</form>
+		<h1 style="color: white; flex: 1">Leaderboard</h1>
+	</div>
+	
 	<form method="POST" use:enhance action="?/changeName" class="rowChild">
-		{#if form?.message}
-			<p class="error">{form.message}</p>
+		{#if form?.error}
+			<p class="error">{form.error}</p>
 		{/if}
 		<input name="displayName" class="input" type="text" required placeholder="Displayed Name" />
 		<input type="submit" id="submitPartyBtn" value="Update Name" />
@@ -69,6 +75,19 @@
 		cursor: pointer;
 	}
 	#submitPartyBtn:hover{
+		background-color: var(--dark-green);
+	}
+	#buyButton{
+		border-radius: 1em;
+		padding: 0.5em;
+		color: white;
+		font-size: 1em;
+		background-color: var(--green);
+		border: none;
+		cursor: pointer;
+		margin-right: 70em;
+	}
+	#buyButton:hover{
 		background-color: var(--dark-green);
 	}
 </style>

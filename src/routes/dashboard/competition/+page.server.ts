@@ -96,7 +96,7 @@ export async function load({ cookies, locals: { supabase, getSession } }) {
 	if (usersInPartyError != null) {
 		console.log(usersInPartyError)
 	}
-	return { stockData, leaderboard, currentParty,playerData };
+	return { stockData, leaderboard, currentParty, playerData };
 
 }
 
@@ -217,6 +217,98 @@ export const actions = {
 			return fail(422, {
 				error: error.message,
 			});
+		}
+	},
+	refreshAllUsers: async ({ locals: { supabase, getSession }, request, cookies }) => {
+		const partyID = cookies.get('party_id');
+		const session = await getSession();
+		const userID = session.user.id
+		//party data
+		const { data: owner_id, error: partyError } = await supabase
+			.from('parties')
+			.select('owner_id')
+			.eq('party_id', partyID);
+		if (owner_id[0].owner_id != userID) {
+			return fail(422, {
+				error: "you are not authorized to do this",
+			});
+		}
+		if (partyError != null) {
+			console.log(partyError.message)
+		}
+		//players stock data from supabase
+		const { data, error } = await supabase
+			.from('stocks')
+			.select('amount_invested, ticker, invested_date, price_when_invested,stock_id,user_id')
+			.eq('party_id', partyID)
+			.order('user_id')
+		if (error != null) {
+			console.log(error.message)
+		}
+		let money: any = [];
+		let current_user_id = data[0].user_id
+		for (const stock of data || []) {
+			if (stock.user_id == current_user_id) {
+				const result = await yahooFinance.quoteSummary(stock.ticker);
+				const price = result.price?.regularMarketPrice;
+				const quantity = stock.amount_invested / stock.price_when_invested;
+				const total = quantity * price;
+				money.push(total);
+			}
+			else {
+				//add up the total to update the money
+				let totalMoney = 0;
+				for (let i = 0; i < money.length; i++) {
+					totalMoney += money[i]
+				}
+				//cash data
+				const { data: cashData, error: cashError } = await supabase
+					.from('usersInParty')
+					.select('cash_left')
+					.eq('party_id', partyID)
+					.eq('user_id', current_user_id)
+				if (cashError != null) {
+					console.log(cashError)
+				}
+				//update user with that
+				const { error: updateError } = await supabase
+					.from('usersInParty')
+					.update({ money: totalMoney + cashData[0].cash_left })
+					.eq('user_id', current_user_id)
+					.eq('party_id', partyID)
+				if (updateError) {
+					console.log(updateError);
+				}
+				money = []
+				current_user_id = stock.user_id
+				const result = await yahooFinance.quoteSummary(stock.ticker);
+				const price = result.price?.regularMarketPrice;
+				const quantity = stock.amount_invested / stock.price_when_invested;
+				const total = quantity * price;
+				money.push(total);
+			}
+		}
+		let totalMoney = 0;
+		for (let i = 0; i < money.length; i++) {
+			totalMoney += money[i]
+		}
+		//cash data
+		const { data: cashData, error: cashError } = await supabase
+			.from('usersInParty')
+			.select('cash_left')
+			.eq('party_id', partyID)
+			.eq('user_id', current_user_id)
+		if (cashError != null) {
+			console.log(cashError)
+		}
+		//update user with that
+		const { error: updateError } = await supabase
+			.from('usersInParty')
+			.update({ money: totalMoney + cashData[0].cash_left })
+			.eq('user_id', current_user_id)
+			.eq('party_id', partyID)
+		if (updateError) {
+			console.log(updateError);
 		}
 	}
 }
