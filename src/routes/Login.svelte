@@ -21,7 +21,7 @@
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<span
 			class="material-symbols-outlined"
-			style="cursor: pointer; padding:0.25em"
+			style="cursor: pointer; padding:0.25em; font-size: 30px"
 			on:click={() => dialog.close()}>arrow_back</span
 		>
 		<form method="POST" use:enhance action="?/login">
@@ -62,8 +62,10 @@
 		margin: auto;
 		flex-direction: column;
 		color: white;
-		background-color: #ffffff;
 		border-radius: 2em;
+	}
+	input:invalid {
+		border: 1px solid red;
 	}
 	input {
 		width: 90%;
@@ -79,6 +81,21 @@
 		max-width: 380px;
 		border: none;
 		border-radius: 1em;
+		background-color: #272727;
+	}
+	h1,
+	p,
+	label,
+	span {
+		color: white;
+	}
+	input {
+		padding: 0.75em 1em 0.75em;
+		border: 0.1em solid #46c759;
+		border-radius: 16px;
+		background-color: #121212;
+		color: white;
+		font-size: 18px;
 	}
 	.already {
 		cursor: pointer;
@@ -115,8 +132,5 @@
 	.error {
 		text-align: center;
 		color: red;
-	}
-	input:invalid {
-		border: 1px solid red;
 	}
 </style>

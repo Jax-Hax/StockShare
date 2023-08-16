@@ -39,10 +39,11 @@
 		justify-content: space-between;
 		padding: 0.5em;
 		align-items: center;
+		background-color: #2c2c2c;
 	}
 	header a {
 		text-decoration: none;
-		color: #555;
+		color: white;
 		transition: all 0.3s ease 0s;
 	}
 	header a:hover {
@@ -75,5 +76,8 @@
 	#signupButton:hover {
 		background-color: var(--dark-green);
 		color: white;
+	}
+	body {
+		background-color: #232323;
 	}
 </style>

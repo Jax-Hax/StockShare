@@ -50,7 +50,7 @@
 		justify-content: space-between;
 		padding: 0.5em;
 		align-items: center;
-		background-color: #121212;
+		background-color: #2c2c2c;
 	}
 	header h1 {
 		color: white;

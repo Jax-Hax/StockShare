@@ -21,7 +21,7 @@
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<span
 			class="material-symbols-outlined"
-			style="cursor: pointer; padding:0.25em"
+			style="cursor: pointer; padding:0.25em; font-size: 30px"
 			on:click={() => dialog.close()}>arrow_back</span
 		>
 		<form method="POST" use:enhance action="?/signup">
@@ -41,7 +41,7 @@
 					Password:
 					<input style="margin: 0" name="password" type="password" required placeholder="lock" />
 				</label>
-				<p style="margin-bottom: 1em; color: #6a737c">
+				<p style="margin-bottom: 1em; color: #a9b2ba">
 					Password should be at least 6 characters long.
 				</p>
 				<label>
@@ -74,7 +74,6 @@
 		margin: auto;
 		flex-direction: column;
 		color: white;
-		background-color: #ffffff;
 		border-radius: 2em;
 	}
 	input:invalid {
@@ -94,6 +93,21 @@
 		max-width: 380px;
 		border: none;
 		border-radius: 1em;
+		background-color: #272727;
+	}
+	h1,
+	p,
+	label,
+	span {
+		color: white;
+	}
+	input {
+		padding: 0.75em 1em 0.75em;
+		border: 0.1em solid #46c759;
+		border-radius: 16px;
+		background-color: #121212;
+		color: white;
+		font-size: 18px;
 	}
 	.already {
 		cursor: pointer;
