@@ -1,10 +1,17 @@
 import { fail, redirect } from '@sveltejs/kit'
 
-export async function load({ cookies ,locals: { supabase, getSession }}) {
+export async function load({ cookies , url, locals: { supabase, getSession }}) {
   const session = await getSession()
 
 	if (session) {
 	  throw redirect(302, '/dashboard')
+	}
+  const code = url.searchParams.get('code')
+	if (code) {
+		const { data, error } = await supabase.auth.verifyOtp({ code, type: 'invite'})
+    console.log(data)
+		if (error) console.log(error.message);
+    throw redirect(302, '/dashboard');
 	}
 }
 export const actions = {

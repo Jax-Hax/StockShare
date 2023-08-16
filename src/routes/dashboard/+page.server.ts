@@ -168,8 +168,8 @@ export const actions = {
 	joinByPassword: async ({ locals: { supabase, getSession }, request, cookies }) => {
 		const session = await getSession()
 		const formData = await request.formData();
-		const partyName = formData.get('party_name')
-		const password = formData.get('join_password')
+		const partyName = formData.get('party_name').trim()
+		const password = formData.get('join_password').trim()
 		const { data, error } = await supabase
 			.from('parties')
 			.select()
