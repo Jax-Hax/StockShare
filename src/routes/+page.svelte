@@ -1,5 +1,6 @@
 <script>
 	import { enhance } from '$app/forms';
+	import AttentionCatcher from './AttentionCatcher.svelte';
 	import Login from './Login.svelte';
 	import Signup from './Signup.svelte';
 	export let form;
@@ -31,6 +32,7 @@
 			<Login {form} bind:showSignup bind:showLogin />
 		{/if}
 	</section>
+	<AttentionCatcher bind:showSignup/>
 </body>
 
 <style>
@@ -49,6 +51,11 @@
 	header a:hover {
 		color: var(--green);
 		text-decoration: underline;
+	}
+	@media screen and (max-width: 585px) {
+		header a{
+			display: none;
+		}
 	}
 	header button {
 		padding: 0.75em 2em;

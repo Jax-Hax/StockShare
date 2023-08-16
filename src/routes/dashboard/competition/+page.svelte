@@ -42,6 +42,7 @@
 		<StockTable {data} {form}/>
 		<Leaderboard {data} {form} {currentParty} />
 	</section>
+	
 </body>
 
 <style>
