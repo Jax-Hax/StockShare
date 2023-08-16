@@ -76,7 +76,7 @@ export const actions = {
 		};
 
 		const insertData = {
-			party_name: getValue('party_name'),
+			party_name: getValue('party_name').trim(),
 			join_password: getValue('join_password'),
 			max_players: getValue('max_players'),
 			starting_cash: getValue('starting_cash') || '10000',

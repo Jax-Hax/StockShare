@@ -40,10 +40,13 @@
 			<input type="submit" class="sellButton" value="Sell Entire Stock" />
 		</form>
 		<form method="POST" use:enhance action="?/sellStockPortion">
-			{#if form?.message}
-				<p class="error">{form.message}</p>
+			{#if form?.error}
+				<p class="error">{form.error}</p>
 			{/if}
-			<input name="stockToSell" type="number" required bind:value={portionNum} placeholder="Portion to sell (in dollars)" />
+			<input name="amToSell" type="number" required bind:value={portionNum} placeholder="Portion to sell (in dollars)" />
+			<input name="stockToSell" type="hidden" value={stockToSell.stock_id} />
+			<input name="stockTotal" type="hidden" value={stockToSell.total} />
+			<input name="cashLeft" type="hidden" value={data.playerData[0].cash_left} />
 			<input type="submit" class="sellButton" value="Sell Portion" />
 			<p>{percentOfStock}%</p>
 		</form>

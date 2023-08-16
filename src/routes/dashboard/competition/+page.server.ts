@@ -184,9 +184,32 @@ export const actions = {
 		//get the stock to sell, add the money made to cash (money is total including cash so dont subtract from it). Then remove the stock
 		const formData = await request.formData();
 		const stockID = formData.get("stockToSell");
+		const partyID = cookies.get('party_id');
+		const session = await getSession()
+		const userID = session.user.id;
+		const cashLeft = parseFloat(formData.get('cashLeft'));
+		const stockTotal = parseFloat(formData.get('stockTotal'));
+		const amToSell = parseInt(formData.get('amToSell'));
+		if (stockTotal <= amToSell){
+			return fail(422, {
+				error: "You cannot sell more than the stock it worth",
+			});
+		}
+		const { error: usersInPartyError } = await supabase
+			.from('usersInParty')
+			.update({ cash_left: (cashLeft + amToSell) })
+			.eq('party_id', partyID)
+			.eq('user_id', userID)
+		if (usersInPartyError) {
+			console.log(usersInPartyError)
+			return fail(422, {
+				error: usersInPartyError.message,
+			});
+		}
+		let newAm = stockTotal - amToSell
 		const { error } = await supabase
 			.from('stocks')
-			.delete()
+			.update({amount_invested: newAm})
 			.eq('stock_id', stockID);
 		if (error) {
 			console.log(error)
@@ -198,9 +221,31 @@ export const actions = {
 	buyStock: async ({ locals: { supabase, getSession }, request, cookies }) => {
 		//get the stock to sell, add the money made to cash (money is total including cash so dont subtract from it). Then remove the stock
 		const formData = await request.formData();
+		const partyID = cookies.get("party_id")
 		const symbol = formData.get("stockToBuy");
 		const session = await getSession()
 		const moneyPaid = formData.get("amToBuy");
+		//player data
+		const { data: playerData, error: playerError } = await supabase
+		.from('usersInParty')
+		.select('cash_left')
+		.eq('party_id', partyID)
+		.eq('user_id', session?.user.id)
+		if (playerError != null) {
+			console.log(playerError)
+		}
+		if(playerData[0].cash_left < moneyPaid){
+			return fail(422, {error: "you do not have enough money to buy this",})
+		}
+		//update user with that
+		const { error: updateError } = await supabase
+			.from('usersInParty')
+			.update({ cash_left: playerData[0].cash_left - moneyPaid })
+			.eq('user_id', session?.user.id)
+			.eq('party_id', partyID)
+		if (updateError) {
+			console.log(updateError);
+		}
 		const result = await yahooFinance.quoteSummary(symbol);
 		const price = result.price?.regularMarketPrice;
 		const { error } = await supabase
