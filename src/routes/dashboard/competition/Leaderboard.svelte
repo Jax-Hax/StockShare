@@ -44,7 +44,6 @@
 		background-color: #363636;
 		border-radius: 16px;
 		margin: 0.5em;
-		max-width: 740px;
 	}
 	p {
 		color: white;

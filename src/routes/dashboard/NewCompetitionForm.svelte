@@ -16,7 +16,7 @@
 		<h1 style="text-align: center; padding:0.3em; flex: 1;">New Competition</h1>
 	</div>
 	<form method="POST" use:enhance action="?/newParty" id="partyMaker">
-		<div>
+		<div style="margin-bottom: 1em">
 			<h1>Main</h1>
 			{#if form?.error}
 				<p class="error">{form.error}</p>
@@ -30,12 +30,12 @@
 				name="starting_cash"
 				type="number"
 				required
-				placeholder="Amount of cash each player starts with"
+				placeholder="Starting cash"
 			/>
 			<input
 				name="join_password"
 				required
-				placeholder="Public password you can share to invite users to your party"
+				placeholder="Public password used to invite users"
 			/>
 		</div>
 		<div>
@@ -43,12 +43,12 @@
 			<input
 				name="max_players"
 				type="number"
-				placeholder="Max number of players allowed (leave blank for unlimited)"
+				placeholder="Max number of players (blank = unlimited)"
 			/>
 			<input
 				name="max_stock_num"
 				type="number"
-				placeholder="Maximum number of unique stocks any player can have at once (leave blank for unlimited)"
+				placeholder="Max number of stocks any player can own at once (blank = unlimited)"
 			/>
 			<input
 				name="min_stock_price"
@@ -104,9 +104,6 @@
 		padding: 1em 0 1em 1em;
 	}
 	#partyMaker {
-		display: grid;
-		gap: 1rem;
-		grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
 		align-items: center;
 		padding: 1em;
 	}

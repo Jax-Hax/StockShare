@@ -100,9 +100,10 @@
 	}
 	h1 {
 		color: white;
+		font-size: min(3rem, 7vw)
 	}
 	p {
-		font-size: min(2rem, 6vw);
+		font-size: min(2rem, 4vw);
 		margin-right: 0.5em;
 		text-align: center;
 		color: white;

@@ -40,6 +40,7 @@
 <body>
 	<section id="stockDash">
 		<StockTable {data} {form}/>
+		<br>
 		<Leaderboard {data} {form} {currentParty} />
 	</section>
 	
@@ -78,9 +79,6 @@
 		min-height: 100%;
 	}
 	#stockDash {
-		display: grid;
-		gap: 1rem;
-		grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
 		padding: 1em;
 	}
 </style>

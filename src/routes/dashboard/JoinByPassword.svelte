@@ -16,6 +16,7 @@
 		<h1 style="text-align: center; padding:0.3em; flex: 1;">Join Competition</h1>
 	</div>
 	<form method="POST" use:enhance action="?/joinByPassword">
+		<h1>Details</h1>
 			{#if form?.error}
 				<p class="error">{form.error}</p>
 			{/if}
@@ -56,7 +57,7 @@
 		font-size: 1.25em;
 		border-radius: 16px;
 		text-align: center;
-		padding: 4em 1em 1em
+		padding: 1em
 	}
 	.input {
 		padding: 0.75em;
