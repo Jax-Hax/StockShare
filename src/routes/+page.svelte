@@ -1,14 +1,10 @@
 <script>
 	import { enhance } from '$app/forms';
-	/**
-	 * @type {HTMLDialogElement}
-	 */
-	let loginModal;
-	/**
-	 * @type {HTMLDialogElement}
-	 */
-	let signupModal;
+	import Login from './Login.svelte';
+	import Signup from './Signup.svelte';
 	export let form;
+	let showSignup = false
+	let showLogin = false
 </script>
 
 <svelte:head>
@@ -22,95 +18,18 @@
 	<img src="/favicon.png" alt="the logo for StockShare" style="width: min(9vw,5em)" />
 	<h1 id="nav-title"><a href="/" style="text-decoration: none">StockShare</a></h1>
 	<div>
-		<button id="signupButton" on:click={signupModal.showModal()}>Get Started</button>
-		<button id="loginButton" on:click={loginModal.showModal()}>Log In</button>
+		<button id="signupButton" on:click={() => showSignup = true}>Get Started</button>
+		<button id="loginButton" on:click={() => showLogin = true}>Log In</button>
 	</div>
 </header>
 <body>
 	<section>
-		<dialog bind:this={signupModal}>
-			<!-- svelte-ignore a11y-click-events-have-key-events -->
-			<!-- svelte-ignore a11y-no-static-element-interactions -->
-			<span
-				class="material-symbols-outlined"
-				style="cursor: pointer; padding:0.25em"
-				on:click={signupModal.close()}>arrow_back</span
-			>
-			<form method="POST" use:enhance action="?/signup">
-				<h1 style="text-align: center; letter-spacing: 0.05em">Sign up</h1>
-				{#if form?.success == false}
-					<p class="error">{form.message}</p>
-					<!-- Can not just be !form.success or it will show if it is null -->
-				{/if}
-				{#if form?.success}
-					<p style="text-align: center">{form.message}</p>
-				{:else}
-					<label>
-						Email:
-						<input name="email" type="email" required placeholder="mail" />
-					</label>
-					<label>
-						Password:
-						<input style="margin: 0" name="password" type="password" required placeholder="lock" />
-					</label>
-					<p style="margin-bottom: 1em; color: #6a737c">
-						Password should be at least 6 characters long.
-					</p>
-					<label>
-						Confirm Password:
-						<input name="confirmPassword" type="password" required placeholder="key" />
-					</label>
-					<button class="bouncyButton">Sign up</button>
-					<!-- svelte-ignore a11y-click-events-have-key-events -->
-					<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-					<p
-						class="already"
-						on:click={() => {
-							signupModal.close();
-							loginModal.showModal();
-						}}
-					>
-						Already a user? Log in
-					</p>
-				{/if}
-			</form>
-		</dialog>
-		<dialog bind:this={loginModal}>
-			<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-			<!-- svelte-ignore a11y-click-events-have-key-events -->
-			<!-- svelte-ignore a11y-no-static-element-interactions -->
-			<span
-				class="material-symbols-outlined"
-				style="cursor: pointer; padding:0.25em"
-				on:click={loginModal.close()}>arrow_back</span
-			>
-			<form method="POST" use:enhance action="?/login">
-				<h1 style="text-align: center; letter-spacing: 0.05em">Log In</h1>
-				{#if form?.success == false}
-					<p class="error">{form.message}</p>
-					<!-- Can not just be !form.success or it will show if it is null -->
-				{/if}
-				<label>
-					Email:
-					<input name="email" type="email" required placeholder="mail" />
-				</label>
-				<label>
-					Password:
-					<input name="password" type="password" required placeholder="lock" />
-				</label>
-				<button class="bouncyButton">Log In</button>
-				<!-- svelte-ignore a11y-click-events-have-key-events -->
-				<p
-					class="already"
-					on:click={() => {
-						loginModal.close();
-						signupModal.showModal();
-					}}
-				>
-					Not a user? Sign up
-				</p>
-			</form>
-		</dialog>
+		{#if showSignup}
+		<Signup {form} bind:showSignup bind:showLogin />
+		{/if}
+		{#if showLogin}
+		<Login {form} bind:showSignup bind:showLogin />
+		{/if}
 	</section>
 </body>
 
