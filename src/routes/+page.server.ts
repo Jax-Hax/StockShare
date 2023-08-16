@@ -1,6 +1,6 @@
 import { fail, redirect } from '@sveltejs/kit'
 
-export async function load({ cookies , url, locals: { supabase, getSession }}) {
+export async function load({ url, locals: { supabase, getSession }}) {
   const session = await getSession()
 
 	if (session) {

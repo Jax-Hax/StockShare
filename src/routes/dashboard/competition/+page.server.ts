@@ -10,15 +10,6 @@ export async function load({ cookies, locals: { supabase, getSession } }) {
 		throw redirect(303, '/')
 	}
 	const userID = session.user.id
-	//leaderboard
-	const { data: leaderboard, error: usersInPartyError } = await supabase
-		.from('usersInParty')
-		.select('name, money')
-		.eq('party_id', partyID)
-		.order('money', { ascending: false })
-	if (usersInPartyError != null) {
-		console.log(usersInPartyError)
-	}
 	//players stock data from supabase
 	const { data, error } = await supabase
 		.from('stocks')
@@ -95,6 +86,15 @@ export async function load({ cookies, locals: { supabase, getSession } }) {
 		.eq('user_id', userID)
 	if (playerError != null) {
 		console.log(playerError)
+	}
+	//leaderboard
+	const { data: leaderboard, error: usersInPartyError } = await supabase
+		.from('usersInParty')
+		.select('name, money')
+		.eq('party_id', partyID)
+		.order('money', { ascending: false })
+	if (usersInPartyError != null) {
+		console.log(usersInPartyError)
 	}
 	return { stockData, leaderboard, currentParty,playerData };
 
