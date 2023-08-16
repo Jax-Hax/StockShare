@@ -1,67 +1,72 @@
 <script>
 	import { enhance } from '$app/forms';
 	export let form;
-    export let showSignup;
-    export let showLogin; //for use with Already a user? Log in
-    let dialog;
-    $: if(dialog && showSignup) dialog.showModal();
+	export let showSignup;
+	export let showLogin; //for use with Already a user? Log in
+	let dialog;
+	$: if (dialog && showSignup) dialog.showModal();
 </script>
+
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<dialog bind:this={dialog} on:close={() => (showSignup = false)}
-	on:click|self={() => dialog.close()}>
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <div id="signupDiv" on:click|stopPropagation>
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <span
-        class="material-symbols-outlined"
-        style="cursor: pointer; padding:0.25em"
-        on:click={() => dialog.close()}>arrow_back</span
-    >
-    <form method="POST" use:enhance action="?/signup">
-        <h1 style="text-align: center; letter-spacing: 0.05em">Sign up</h1>
-        {#if form?.success == false}
-            <p class="error">{form.message}</p>
-            <!-- Can not just be !form.success or it will show if it is null -->
-        {/if}
-        {#if form?.success}
-            <p style="text-align: center">{form.message}</p>
-        {:else}
-            <label>
-                Email:
-                <input name="email" type="email" required placeholder="mail" />
-            </label>
-            <label>
-                Password:
-                <input style="margin: 0" name="password" type="password" required placeholder="lock" />
-            </label>
-            <p style="margin-bottom: 1em; color: #6a737c">
-                Password should be at least 6 characters long.
-            </p>
-            <label>
-                Confirm Password:
-                <input name="confirmPassword" type="password" required placeholder="key" />
-            </label>
-            <button class="bouncyButton">Sign up</button>
-            <!-- svelte-ignore a11y-click-events-have-key-events -->
-            <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-            <p
-                class="already"
-                on:click={() => {
-                    dialog.close();
-                    showLogin = true;
-                }}
-            >
-                Already a user? Log in
-            </p>
-        {/if}
-    </form>
-</div>
+<dialog
+	bind:this={dialog}
+	on:close={() => (showSignup = false)}
+	on:click|self={() => dialog.close()}
+>
+	<!-- svelte-ignore a11y-no-static-element-interactions -->
+	<div id="signupDiv" on:click|stopPropagation>
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<!-- svelte-ignore a11y-no-static-element-interactions -->
+		<span
+			class="material-symbols-outlined"
+			style="cursor: pointer; padding:0.25em"
+			on:click={() => dialog.close()}>arrow_back</span
+		>
+		<form method="POST" use:enhance action="?/signup">
+			<h1 style="text-align: center; letter-spacing: 0.05em">Sign up</h1>
+			{#if form?.success == false}
+				<p class="error">{form.message}</p>
+				<!-- Can not just be !form.success or it will show if it is null -->
+			{/if}
+			{#if form?.success}
+				<p style="text-align: center">{form.message}</p>
+			{:else}
+				<label>
+					Email:
+					<input name="email" type="email" required placeholder="mail" />
+				</label>
+				<label>
+					Password:
+					<input style="margin: 0" name="password" type="password" required placeholder="lock" />
+				</label>
+				<p style="margin-bottom: 1em; color: #6a737c">
+					Password should be at least 6 characters long.
+				</p>
+				<label>
+					Confirm Password:
+					<input name="confirmPassword" type="password" required placeholder="key" />
+				</label>
+				<button class="bouncyButton">Sign up</button>
+				<!-- svelte-ignore a11y-click-events-have-key-events -->
+				<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+				<p
+					class="already"
+					on:click={() => {
+						dialog.close();
+						showLogin = true;
+					}}
+				>
+					Already a user? Log in
+				</p>
+			{/if}
+		</form>
+	</div>
 </dialog>
+
 <style>
-    form {
+	form {
 		position: relative;
 		display: flex;
 		padding: 2em;
@@ -71,6 +76,9 @@
 		color: white;
 		background-color: #ffffff;
 		border-radius: 2em;
+	}
+	input:invalid {
+		border: 1px solid red;
 	}
 	input {
 		width: 90%;
@@ -82,18 +90,20 @@
 		left: 50%;
 		transform: translate(-50%, -50%);
 		padding: 3em;
-        width: 60vw;
-        max-width: 380px;
+		width: 60vw;
+		max-width: 380px;
 		border: none;
 		border-radius: 1em;
-	}.already {
+	}
+	.already {
 		cursor: pointer;
 		text-align: center;
 	}
 	.already:hover {
 		color: var(--green);
 		text-decoration: underline;
-	}input::placeholder {
+	}
+	input::placeholder {
 		font-family: 'Material Symbols Outlined';
 		font-weight: normal;
 		font-style: normal;
