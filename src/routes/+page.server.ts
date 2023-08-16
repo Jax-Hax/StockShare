@@ -8,7 +8,7 @@ export async function load({ cookies , url, locals: { supabase, getSession }}) {
 	}
   const code = url.searchParams.get('code')
 	if (code) {
-		const { data, error } = await supabase.auth.verifyOtp({ code, type: 'invite'})
+		const { data, error } = await supabase.auth.verifyOtp({ token_hash: code, type: 'invite'})
     console.log(data)
 		if (error) console.log(error.message);
     throw redirect(302, '/dashboard');
