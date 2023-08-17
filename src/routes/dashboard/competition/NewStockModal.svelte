@@ -25,12 +25,14 @@
 	<div on:click|stopPropagation>
 		<h1>New Stock</h1>
 		<form method="POST" use:enhance action="?/buyStock">
-			{#if form?.message}
-				<p class="error">{form.message}</p>
+			{#if form?.error}
+				<p class="error">{form.error}</p>
 			{/if}
 			<input name="stockToBuy" type="text" required placeholder="Symbol of stock to buy" />
 			<input name="amToBuy" type="number" required placeholder="Amount to buy (in dollars)" />
 			<input type="submit" class="sellButton" value="Buy" />
+			<input name="max_stock_num" type="hidden" value={data.currentParty[0].max_stock_num} />
+			<input name="min_stock_price" type="hidden" value={data.currentParty[0].min_stock_price} />
 		</form>
 	</div>
 </dialog>
@@ -70,5 +72,9 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1em;
+	}
+	.error{
+		color: #ea5252;
+		font-size: 20px
 	}
 </style>

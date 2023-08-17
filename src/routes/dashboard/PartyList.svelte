@@ -34,11 +34,7 @@
 	{#each data.parties as party}
 		<div>
 			<h1>{party.party_name}</h1>
-			{#if party.num_users == 1}
-				<p>It's just you in this competition!</p>
-			{:else}
-				<p>There are {party.num_users} people in this party (including you)</p>
-			{/if}
+			
 			<form method="post" action="?/joinParty">
 				<button class="bouncyButton" name="party_id" value={party.party_id} style="margin: 1em"
 					>Stock Dashboard</button

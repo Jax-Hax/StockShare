@@ -50,7 +50,7 @@ export async function load({ cookies, locals: { supabase, getSession } }) {
 	//players stock data from supabase
 	const { data: currentParty, error: partyError } = await supabase
 		.from('parties')
-		.select('starting_cash,party_name,owner_id,join_password')
+		.select('starting_cash,party_name,owner_id,join_password,max_stock_num,min_stock_price')
 		.eq('party_id', partyID);
 	if (partyError != null) {
 		console.log(partyError.message)
@@ -225,6 +225,8 @@ export const actions = {
 		const symbol = formData.get("stockToBuy");
 		const session = await getSession()
 		const moneyPaid = formData.get("amToBuy");
+		const minStockPrice = parseFloat(formData.get('min_stock_price'));
+		const maxStockNum = parseInt(formData.get('max_stock_num'));
 		//player data
 		const { data: playerData, error: playerError } = await supabase
 		.from('usersInParty')
@@ -235,7 +237,7 @@ export const actions = {
 			console.log(playerError)
 		}
 		if(playerData[0].cash_left < moneyPaid){
-			return fail(422, {error: "you do not have enough money to buy this",})
+			return fail(422, {error: "You do not have enough money to buy this",})
 		}
 		//update user with that
 		const { error: updateError } = await supabase
@@ -248,6 +250,9 @@ export const actions = {
 		}
 		const result = await yahooFinance.quoteSummary(symbol);
 		const price = result.price?.regularMarketPrice;
+		if (price < minStockPrice){
+			return fail(422, {error: "That is less than the minimum stock price"})
+		}
 		const { error } = await supabase
 			.from('stocks')
 			.insert({
