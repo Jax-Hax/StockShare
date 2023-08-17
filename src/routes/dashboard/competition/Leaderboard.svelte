@@ -84,7 +84,7 @@
 		background-color: var(--green);
 		border: none;
 		cursor: pointer;
-		margin-right: 70em;
+		margin-right: 5em;
 	}
 	#buyButton:hover{
 		background-color: var(--dark-green);
