@@ -2,16 +2,17 @@
 	import { enhance } from '$app/forms';
 
 	export let data, form, currentParty;
+	let { session } = data
+	$: ({ session } = data)
 </script>
 
 <div id="leaderboard">
-	<div id="row">
-		<form method="POST" use:enhance action="?/refreshAllUsers">
-			<input type="submit" id="buyButton" value="Refresh Leaderboard" />
-		</form>
-		<h1 style="color: white; flex: 1">Leaderboard</h1>
-	</div>
-	
+	{#if currentParty.owner_id == session.user.id}
+	<form method="POST" use:enhance action="?/refreshAllUsers">
+		<input type="submit" id="buyButton" value="Refresh Leaderboard" />
+	</form>
+{/if}
+	<h1 style="color: white; flex: 1">Leaderboard</h1>
 	<form method="POST" use:enhance action="?/changeName" class="rowChild">
 		{#if form?.error}
 			<p class="error">{form.error}</p>
@@ -84,7 +85,6 @@
 		background-color: var(--green);
 		border: none;
 		cursor: pointer;
-		margin-right: 5em;
 	}
 	#buyButton:hover{
 		background-color: var(--dark-green);
