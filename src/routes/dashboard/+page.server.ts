@@ -78,16 +78,9 @@ export const actions = {
 		const insertData = {
 			party_name: getValue('party_name').trim(),
 			join_password: getValue('join_password'),
-			max_players: getValue('max_players'),
 			starting_cash: getValue('starting_cash') || '10000',
 			max_stock_num: getValue('max_stock_num'),
-			index_funds_allowed: formData.get('index_funds_allowed') !== null,
-			max_sells: getValue('max_sells'),
-			partials_allowed: formData.get('partials_allowed') !== null,
 			min_stock_price: getValue('min_stock_price') || '0',
-			drip_enabled: formData.get('drip_enabled') !== null,
-			leaderboard_enabled: formData.get('leaderboard_enabled') !== null,
-			num_users: 1,
 		};
 
 		const { data, error: insertError } = await supabase

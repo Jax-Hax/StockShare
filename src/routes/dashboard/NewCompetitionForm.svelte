@@ -16,8 +16,8 @@
 		<h1 style="text-align: center; padding:0.3em; flex: 1;">New Competition</h1>
 	</div>
 	<form method="POST" use:enhance action="?/newParty" id="partyMaker">
-		<div style="margin-bottom: 1em">
-			<h1>Main</h1>
+		<div>
+			<h1>Required</h1>
 			{#if form?.error}
 				<p class="error">{form.error}</p>
 			{/if}
@@ -37,14 +37,7 @@
 				required
 				placeholder="Public password used to invite users"
 			/>
-		</div>
-		<div>
 			<h1>Extra</h1>
-			<input
-				name="max_players"
-				type="number"
-				placeholder="Max number of players (blank = unlimited)"
-			/>
 			<input
 				name="max_stock_num"
 				type="number"
@@ -56,34 +49,6 @@
 				step="0.01"
 				placeholder="Minimum price of a stock, to prevent penny stocks (leave blank for 0)"
 			/>
-			<input
-				name="max_sells"
-				type="number"
-				placeholder="The maximum number of times people can sell a stock (leave blank for unlimited)"
-			/>
-			Are index funds allowed:
-			<label class="switch">
-				<input name="index_funds_allowed" type="checkbox" />
-				<span class="slider" />
-			</label>
-			<br />
-			Is buying just a part of a stock (partial) allowed:
-			<label class="switch">
-				<input name="partials_allowed" type="checkbox" />
-				<span class="slider" />
-			</label>
-			<br />
-			Is the Leaderboard enabled:
-			<label class="switch">
-				<input name="leaderboard_enabled" type="checkbox" />
-				<span class="slider" />
-			</label>
-			<br />
-			Automatic Dividend Reinvesting (money will be deposited to account if not):
-			<label class="switch">
-				<input name="drip_enabled" type="checkbox" />
-				<span class="slider" />
-			</label>
 		</div>
 	</form>
 	<input id="submitPartyBtn" type="submit" form="partyMaker" value="Create New Competition" />
