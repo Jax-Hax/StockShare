@@ -20,7 +20,7 @@ import NewStockModal from "./NewStockModal.svelte";
 <div id="yourStocks">
 	<div id="row">
 	<h1 style="color: white; flex: 1">Your Stocks</h1>
-	<button id="sellButton" on:click={() => (showDividend = true)}>Dividend</button>
+	<button id="dividendButton" on:click={() => (showDividend = true)}>Dividend</button>
 	<button id="buyButton" on:click={() => (showNewStock = true)}><span class="material-symbols-outlined plus">add</span></button>
 	<button id="sellButton" on:click={() => (showSellStock = true)}>Sell</button>
 </div>
@@ -100,6 +100,19 @@ import NewStockModal from "./NewStockModal.svelte";
 	#buyButton:hover{
 		background-color: var(--dark-green);
 	}
+	#dividendButton{
+		border-radius: 2em;
+		padding: 0.5em 1em;
+		margin-right: 0.5em;
+		font-size: 1.35rem;
+		background-color: rgb(38, 107, 255);
+		border: none;
+		cursor: pointer;
+		color: white;
+	}
+	#dividendButton:hover{
+		background-color: rgb(28, 90, 223);
+	}
 	.plus{
 		padding: 0.5em;
 		color: white;
@@ -108,7 +121,7 @@ import NewStockModal from "./NewStockModal.svelte";
 	#sellButton{
 		border-radius: 2em;
 		padding: 0.5em 1em;
-		margin-left: 1em;
+		margin-left: 0.5em;
 		font-size: 1.35rem;
 		background-color: #ea5252;
 		border: none;

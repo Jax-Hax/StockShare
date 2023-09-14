@@ -366,8 +366,9 @@ export const actions = {
 		const partyID = cookies.get("party_id")
 		const symbol = formData.get("stock");
 		const session = await getSession();
-		const money = parseFloat(formData.get('money'));
-		
+		const money = parseFloat(formData.get('money'))/100;
+		const result = await yahooFinance.quoteSummary(symbol);
+		const price = result.price?.regularMarketPrice;
 		//player data
 		const { data: playerData, error: playerError } = await supabase
 		.from('stocks')
@@ -375,16 +376,18 @@ export const actions = {
 		.eq('party_id', partyID)
 		.eq('user_id', session?.user.id)
 		.eq('ticker', symbol);
-		console.log(playerData);
 		if (playerError != null) {
 			console.log(playerError);
 			return fail(422, {error: "You do not own this stock",})
 		}
-
-		const quantity = playerData[0].amount_invested / playerData[0].price_when_invested;
-
-		const result = await yahooFinance.quoteSummary(symbol);
-		const price = result.price?.regularMarketPrice;
+		let quantity = 0;
+		for (const stock of playerData || []) {
+			quantity += stock.amount_invested / stock.price_when_invested;
+		}
+		console.log("Quantity amd: " + quantity);
+		const amPerShare = (price * money);
+		const amToInvest = amPerShare * quantity;
+		console.log(amPerShare);
 		const { error } = await supabase
 			.from('stocks')
 			.insert({
