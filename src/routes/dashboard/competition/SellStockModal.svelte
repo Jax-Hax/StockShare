@@ -39,7 +39,7 @@
 			<input name="cashLeft" type="hidden" value={data.playerData[0].cash_left} />
 			<input type="submit" class="sellButton" value="Sell Entire Stock" />
 		</form>
-		<form method="POST" use:enhance action="?/sellStockPortion">
+		<!--<form method="POST" use:enhance action="?/sellStockPortion">
 			{#if form?.error}
 				<p class="error">{form.error}</p>
 			{/if}
@@ -50,6 +50,7 @@
 			<input type="submit" class="sellButton" value="Sell Portion" />
 			<p>{percentOfStock}%</p>
 		</form>
+-->
 	</div>
 		{/if}
 	</div>
