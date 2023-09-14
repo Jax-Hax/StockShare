@@ -1,10 +1,12 @@
 <script>
-	import NewStockModal from "./NewStockModal.svelte";
+	import Dividend from "./Dividend.svelte";
+import NewStockModal from "./NewStockModal.svelte";
 	import SellStockModal from "./SellStockModal.svelte";
 	export let data;
 	export let form;
 	let showNewStock = false;
 	let showSellStock = false;
+	let showDividend = false;
 </script>
 {#if showNewStock}
 	<NewStockModal bind:showNewStock {form} {data}/>
@@ -12,9 +14,13 @@
 {#if showSellStock}
 	<SellStockModal bind:showSellStock {form} {data}/>
 {/if}
+{#if showDividend}
+	<Dividend bind:showDividend {form} {data}/>
+{/if}
 <div id="yourStocks">
 	<div id="row">
 	<h1 style="color: white; flex: 1">Your Stocks</h1>
+	<button id="sellButton" on:click={() => (showDividend = true)}>Dividend</button>
 	<button id="buyButton" on:click={() => (showNewStock = true)}><span class="material-symbols-outlined plus">add</span></button>
 	<button id="sellButton" on:click={() => (showSellStock = true)}>Sell</button>
 </div>

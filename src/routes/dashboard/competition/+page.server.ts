@@ -58,7 +58,7 @@ export async function load({ cookies, locals: { supabase, getSession } }) {
 	//add up the total to update the money
 	let totalMoney = 0;
 	for (let i = 0; i < stockData.length; i++) {
-		totalMoney += stockData[i].total
+		totalMoney += parseFloat(stockData[i].total)
 	}
 	//cash data
 	const { data: cashData, error: cashError } = await supabase
@@ -360,5 +360,45 @@ export const actions = {
 		if (updateError) {
 			console.log(updateError);
 		}
-	}
+	},
+	dividend: async ({ locals: { supabase, getSession }, request, cookies }) => {
+		const formData = await request.formData();
+		const partyID = cookies.get("party_id")
+		const symbol = formData.get("stock");
+		const session = await getSession();
+		const money = parseFloat(formData.get('money'));
+		
+		//player data
+		const { data: playerData, error: playerError } = await supabase
+		.from('stocks')
+		.select('amount_invested,price_when_invested')
+		.eq('party_id', partyID)
+		.eq('user_id', session?.user.id)
+		.eq('ticker', symbol);
+		console.log(playerData);
+		if (playerError != null) {
+			console.log(playerError);
+			return fail(422, {error: "You do not own this stock",})
+		}
+
+		const quantity = playerData[0].amount_invested / playerData[0].price_when_invested;
+
+		const result = await yahooFinance.quoteSummary(symbol);
+		const price = result.price?.regularMarketPrice;
+		const { error } = await supabase
+			.from('stocks')
+			.insert({
+				party_id: cookies.get('party_id'),
+				user_id: session?.user.id,
+				ticker: symbol,
+				price_when_invested: price,
+				amount_invested: quantity * money
+			})
+		if (error) {
+			console.log(error)
+			return fail(422, {
+				error: error.message,
+			});
+		}
+	},
 }
