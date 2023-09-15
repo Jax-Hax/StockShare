@@ -40,7 +40,7 @@
 			{#if form?.error}
 				<p class="error">{form.error}</p>
 			{/if}
-			<input name="stock" type="text" required placeholder="Symbol of stock that had the dividend (WARNING: This will error if you input a stock you do not own)" />
+			<input name="stock" type="text" required placeholder="Symbol of stock you own that had the dividend" />
 			<input name="money" type="number" required step=0.001 placeholder="Amount of money you earned (you need to do the calculations yourself based off the dividend return and your quantity of shares)" />
 			<input type="submit" class="sellButton" value="Buy" />
 			<input name="max_stock_num" type="hidden" value={data.currentParty[0].max_stock_num} />
