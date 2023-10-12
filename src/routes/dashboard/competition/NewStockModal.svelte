@@ -24,6 +24,8 @@
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<div on:click|stopPropagation>
 		<h1>New Stock</h1>
+		<p>Total: {data.playerData[0].money}</p>
+		<p>Cash: {data.playerData[0].cash_left}</p>
 		<form method="POST" use:enhance action="?/buyStock">
 			{#if form?.error}
 				<p class="error">{form.error}</p>
@@ -44,7 +46,7 @@
 		border-radius: 1em;
         background-color: #363636;
     }
-	h1{
+	h1, p{
 		color: white
 	}
 	input[type="number"],input[type="text"]{
