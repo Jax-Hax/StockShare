@@ -49,6 +49,9 @@
 	h1, p{
 		color: white
 	}
+	p {
+		font-size: min(2rem, 4vw);
+	}
 	input[type="number"],input[type="text"]{
 		padding: 0.75em 1em 0.75em;
 		border: 0.1em solid #46c759;
