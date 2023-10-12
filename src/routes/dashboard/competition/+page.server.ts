@@ -278,11 +278,6 @@ export const actions = {
 			.from('parties')
 			.select('owner_id')
 			.eq('party_id', partyID);
-		if (owner_id[0].owner_id != userID) {
-			return fail(422, {
-				error: "you are not authorized to do this",
-			});
-		}
 		if (partyError != null) {
 			console.log(partyError.message)
 		}

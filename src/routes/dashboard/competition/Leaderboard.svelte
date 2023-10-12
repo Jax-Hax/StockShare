@@ -7,11 +7,9 @@
 </script>
 
 <div id="leaderboard">
-	{#if currentParty.owner_id == session.user.id}
 	<form method="POST" use:enhance action="?/refreshAllUsers">
 		<input type="submit" id="buyButton" value="Refresh Leaderboard" />
 	</form>
-{/if}
 	<h1 style="color: white; flex: 1">Leaderboard</h1>
 	<form method="POST" use:enhance action="?/changeName" class="rowChild">
 		{#if form?.error}
