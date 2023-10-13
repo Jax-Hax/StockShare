@@ -37,7 +37,7 @@
 			<input name="stockToSell" type="hidden" value={stockToSell.stock_id} />
 			<input name="stockTotal" type="hidden" value={stockToSell.total} />
 			<input name="cashLeft" type="hidden" value={data.playerData[0].cash_left} />
-			<input type="submit" class="sellButton" value="Sell Entire Stock" />
+			<input type="submit" class="sellButton" value="Sell Entire Stock" on:click={() => {sellAmDialog.close(); dialog.close()}}/>
 		</form>
 		<!--<form method="POST" use:enhance action="?/sellStockPortion">
 			{#if form?.error}
