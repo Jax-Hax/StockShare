@@ -32,6 +32,6 @@
 		"@sendgrid/mail": "^7.7.0",
 		"@supabase/auth-helpers-sveltekit": "^0.10.2",
 		"@supabase/supabase-js": "^2.32.0",
-		"yahoo-finance2": "^2.11.2"
+		"yahoo-finance2": "^2.11.3"
 	}
 }
